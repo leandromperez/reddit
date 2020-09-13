@@ -8,19 +8,18 @@
 import Foundation
 
 public struct RedditThing : Codable {
+    private struct Data : Codable {
+        let author: String
+        let thumbnail: String
+        let title: String
+        let url: String
+    }
+
     private let data : Data
     public let kind : String
     
     public var author: String {
         data.author
-    }
-
-    public var creationDate: Double {
-        data.creationDate
-    }
-
-    public var numComments: Int {
-        data.numComments
     }
 
     public var thumbnail: String {
@@ -35,12 +34,5 @@ public struct RedditThing : Codable {
         data.url
     }
 
-    private struct Data : Codable {
-        let title: String
-        let author: String
-        let creationDate: Double
-        let thumbnail: String
-        let url: String
-        let numComments: Int
-    }
+
 }
