@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RedditThing : Codable {
+public struct Reddit : Codable {
     private struct Data : Codable {
         let author: String
         let thumbnail: String
@@ -36,3 +36,6 @@ public struct RedditThing : Codable {
 
 
 }
+
+
+public typealias ReddditListing = Listing<Reddit>

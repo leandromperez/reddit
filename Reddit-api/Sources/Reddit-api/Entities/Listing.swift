@@ -9,21 +9,23 @@
 import Foundation
 import Endpoints
 
-public struct Listing : Codable {
+public struct Listing<T: Codable> : Codable {
     private struct Data : Codable {
         let after : String?
         let before: String?
-        let children: [RedditThing]
+        let children: [T]
     }
 
     private let data: Data
 
-    public var children : [RedditThing] {
+    public var children : [T] {
         data.children
     }
 }
 
-extension Listing : EndpointAccessible {
+
+
+extension Listing : EndpointAccessible where T == Reddit {
     public typealias Element = Listing
     public static var path: String {
         "/top.json"

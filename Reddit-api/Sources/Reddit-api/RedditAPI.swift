@@ -34,9 +34,11 @@ public extension RedditAPI {
     ///   - after: fullname of a thing
     ///   - before: fullname of a thing
     /// - Returns: an endpoint instance connected to http://www.reddit.com/top.json, e.g. https://www.reddit.com/top.json?limit=10&after=t3_irj36w
-    func top(limit: Int = 100, after: String? = nil, before: String? = nil) -> Endpoint<Listing> {
-        let query = Listing.Query(limit: limit, after: after, before: before)
-        return Endpoint<Listing>.get(baseUrl: baseUrl, query: query.stringsDictionary)
+    func topReddits(limit: Int = 100, after: String? = nil, before: String? = nil) -> Endpoint<ReddditListing> {
+        let query = ReddditListing.Query(limit: limit, after: after, before: before)
+    
+        return Endpoint<ReddditListing>.get(baseUrl: baseUrl,
+                                     query: query.stringsDictionary)
     }
 }
 

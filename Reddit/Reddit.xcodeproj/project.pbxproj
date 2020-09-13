@@ -17,7 +17,7 @@
 		9CDA13E3250E6705005931B3 /* RedditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA13E2250E6705005931B3 /* RedditTests.swift */; };
 		9CDA13EF250E6BC5005931B3 /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA13EE250E6BC5005931B3 /* Base */; };
 		9CDA13F1250E6BC5005931B3 /* Endpoints in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA13F0250E6BC5005931B3 /* Endpoints */; };
-		9CDA13F5250E72A8005931B3 /* stub-Listing.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13F4250E72A8005931B3 /* stub-Listing.json */; };
+		9CDA13F5250E72A8005931B3 /* stub-Listing<Reddit>.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */; };
 		9CDA1407250E7AFE005931B3 /* Reddit-api in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA1406250E7AFE005931B3 /* Reddit-api */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,7 @@
 		9CDA13DE250E6705005931B3 /* RedditTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedditTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDA13E2250E6705005931B3 /* RedditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditTests.swift; sourceTree = "<group>"; };
 		9CDA13E4250E6705005931B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CDA13F4250E72A8005931B3 /* stub-Listing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stub-Listing.json"; sourceTree = "<group>"; };
+		9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stub-Listing<Reddit>.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +90,7 @@
 		9CDA13C8250E6703005931B3 /* Reddit */ = {
 			isa = PBXGroup;
 			children = (
-				9CDA13F4250E72A8005931B3 /* stub-Listing.json */,
+				9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */,
 				9CDA13C9250E6703005931B3 /* AppDelegate.swift */,
 				9CDA13CB250E6703005931B3 /* SceneDelegate.swift */,
 				9CDA13CD250E6703005931B3 /* MasterViewController.swift */,
@@ -206,7 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CDA13D8250E6705005931B3 /* LaunchScreen.storyboard in Resources */,
-				9CDA13F5250E72A8005931B3 /* stub-Listing.json in Resources */,
+				9CDA13F5250E72A8005931B3 /* stub-Listing<Reddit>.json in Resources */,
 				9CDA13D5250E6705005931B3 /* Assets.xcassets in Resources */,
 				9CDA13D3250E6703005931B3 /* Main.storyboard in Resources */,
 			);

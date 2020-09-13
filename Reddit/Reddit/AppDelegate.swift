@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        RedditAPI().top().call(stub: .now) { (result) in
+        RedditAPI().topReddits().call(stub: .now) { (result) in
             print("did invoke endpoint")
             print("result is \(result)")
         }
