@@ -8,12 +8,20 @@
 
 import UIKit
 import Base
+import Reddit_api
+import Endpoints
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        RedditAPI().topReddits().call(stub: .now) { (result) in
+            print("did invoke endpoint")
+            print("result is \(result)")
+        }
+        
         return true
     }
 

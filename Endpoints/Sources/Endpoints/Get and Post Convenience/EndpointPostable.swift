@@ -22,10 +22,10 @@ extension Endpoint where A : Codable & EndpointPostable {
 
     @discardableResult
     public static func post(baseUrl: String,
-                            behavior:StubbingBehavior = .never,
+                            stub:StubbingBehavior = .never,
                             body: A.Body,
                             onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
         let url = Endpoint.defaultGetUrl(baseUrl: baseUrl, endpointType: A.self)
-        return Endpoint<A>(json: .post, url: url, body: body).call(behavior:behavior, onComplete: onComplete)
+        return Endpoint<A>(json: .post, url: url, body: body).call(stub: stub, onComplete: onComplete)
     }
 }
