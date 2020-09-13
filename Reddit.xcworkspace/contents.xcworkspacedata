@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Base">
+   </FileRef>
+   <FileRef
+      location = "group:Endpoints">
+   </FileRef>
+   <FileRef
       location = "group:Reddit/Reddit.xcodeproj">
    </FileRef>
 </Workspace>

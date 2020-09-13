@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,8 @@
 		9CDA13D5250E6705005931B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13D4250E6705005931B3 /* Assets.xcassets */; };
 		9CDA13D8250E6705005931B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13D6250E6705005931B3 /* LaunchScreen.storyboard */; };
 		9CDA13E3250E6705005931B3 /* RedditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA13E2250E6705005931B3 /* RedditTests.swift */; };
+		9CDA13EF250E6BC5005931B3 /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA13EE250E6BC5005931B3 /* Base */; };
+		9CDA13F1250E6BC5005931B3 /* Endpoints in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA13F0250E6BC5005931B3 /* Endpoints */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDA13EF250E6BC5005931B3 /* Base in Frameworks */,
+				9CDA13F1250E6BC5005931B3 /* Endpoints in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +70,7 @@
 				9CDA13C8250E6703005931B3 /* Reddit */,
 				9CDA13E1250E6705005931B3 /* RedditTests */,
 				9CDA13C7250E6703005931B3 /* Products */,
+				9CDA13ED250E6BC5005931B3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +107,13 @@
 			path = RedditTests;
 			sourceTree = "<group>";
 		};
+		9CDA13ED250E6BC5005931B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,6 +130,10 @@
 			dependencies = (
 			);
 			name = Reddit;
+			packageProductDependencies = (
+				9CDA13EE250E6BC5005931B3 /* Base */,
+				9CDA13F0250E6BC5005931B3 /* Endpoints */,
+			);
 			productName = Reddit;
 			productReference = 9CDA13C6250E6703005931B3 /* Reddit.app */;
 			productType = "com.apple.product-type.application";
@@ -473,6 +489,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9CDA13EE250E6BC5005931B3 /* Base */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Base;
+		};
+		9CDA13F0250E6BC5005931B3 /* Endpoints */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Endpoints;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9CDA13BE250E6703005931B3 /* Project object */;
 }
