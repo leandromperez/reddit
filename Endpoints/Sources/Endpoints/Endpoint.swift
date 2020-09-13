@@ -81,7 +81,7 @@ public struct Endpoint<A> {
                 headers: [String:String] = [:],
                 expectedStatusCode: @escaping (Int) -> Bool = expected200to300,
                 timeOutInterval: TimeInterval = 10,
-                query: [String:String] = [:],
+                query: [String: String] = [:],
                 parse: @escaping (Data?, URLResponse?) -> Result<A, Error>) {
         var requestUrl : URL
         if query.isEmpty {

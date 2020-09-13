@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Reddit-api">
+   </FileRef>
+   <FileRef
       location = "group:Base">
    </FileRef>
    <FileRef

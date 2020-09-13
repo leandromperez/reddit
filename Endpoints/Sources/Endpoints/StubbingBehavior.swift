@@ -56,6 +56,7 @@ public extension StubbingBehavior {
 }
 
 extension Endpoint where A : Decodable {
+    @discardableResult
     public func call(behavior: StubbingBehavior = .never,
                      session : URLSession = .shared,
                      onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {

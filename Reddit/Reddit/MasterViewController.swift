@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Reddit_api
 
 class MasterViewController: UITableViewController {
 
@@ -16,6 +17,13 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("will invoke endpoint")
+        RedditAPI().top().call { (result) in
+            print("did invoke endpoint")
+            print("result is \(result)")
+        }
+
         // Do any additional setup after loading the view.
         navigationItem.leftBarButtonItem = editButtonItem
 
