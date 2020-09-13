@@ -33,9 +33,4 @@ public struct Reddit : Codable {
     public var url: String {
         data.url
     }
-
-
 }
-
-
-public typealias ReddditListing = Listing<Reddit>

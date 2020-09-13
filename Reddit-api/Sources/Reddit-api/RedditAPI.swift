@@ -28,7 +28,7 @@ public struct RedditAPI : Backend {
 
 public extension RedditAPI {
 
-    /// Creates an endpoint to the `top` listing endpoint explained here: https://www.reddit.com/dev/api#GET_top
+    /// Creates an endpoint connected to the one doccumented here: https://www.reddit.com/dev/api#GET_top
     /// - Parameters:
     ///   - limit: the maximum number of items desired (default: 25, maximum: 100)
     ///   - after: fullname of a thing
@@ -37,8 +37,7 @@ public extension RedditAPI {
     func topReddits(limit: Int = 100, after: String? = nil, before: String? = nil) -> Endpoint<ReddditListing> {
         let query = ReddditListing.Query(limit: limit, after: after, before: before)
     
-        return Endpoint<ReddditListing>.get(baseUrl: baseUrl,
-                                     query: query.stringsDictionary)
+        return Endpoint<ReddditListing>.get(baseUrl: baseUrl, query: query.stringsDictionary)
     }
 }
 

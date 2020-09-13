@@ -24,6 +24,7 @@ let package = Package(
             dependencies: ["Base", "Endpoints"]),
         .testTarget(
             name: "Reddit-apiTests",
+//            resources: [ .process("stub-Listing<Reddit>.json") ],//TODO: add tool version 5.3
             dependencies: ["Reddit-api"]),
     ]
 )

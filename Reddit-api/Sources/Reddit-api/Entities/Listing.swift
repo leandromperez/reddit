@@ -23,12 +23,3 @@ public struct Listing<T: Codable> : Codable {
     }
 }
 
-
-
-extension Listing : EndpointAccessible where T == Reddit {
-    public typealias Element = Listing
-    public static var path: String {
-        "/top.json"
-    }
-}
-
