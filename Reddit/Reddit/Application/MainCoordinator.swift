@@ -13,8 +13,10 @@ import Reddit_api
 
 class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
-    var masterViewController: MasterViewController!
     var navigationController: UINavigationController
+
+    private lazy var masterViewController: MasterViewController = MasterViewController.fromStoryboard(coordinator: self, interactor: MasterInteractor())
+    private lazy var detailsViewController: DetailViewController = DetailViewController.fromStoryboard()
 
     lazy var splitViewController: UISplitViewController = UISplitViewController()
 
@@ -23,10 +25,8 @@ class MainCoordinator : Coordinator {
     }
 
     func start() {
-        masterViewController = MasterViewController.fromStoryboard(coordinator: self, interactor: MasterInteractor())
         let masterNavigator = UINavigationController(rootViewController: masterViewController)
-
-        let detailsNavigator = UINavigationController(rootViewController: DetailViewController.fromStoryboard())
+        let detailsNavigator = UINavigationController(rootViewController: detailsViewController)
 
         masterNavigator.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         masterNavigator.navigationItem.leftItemsSupplementBackButton = true
@@ -46,9 +46,7 @@ class MainCoordinator : Coordinator {
         splitViewController.viewControllers.last as! UINavigationController
     }
 
-    private var detailsViewController: DetailViewController {
-        detailsNavigator.topViewController as! DetailViewController
-    }
+
 }
 
 
