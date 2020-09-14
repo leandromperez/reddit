@@ -13,6 +13,7 @@ import Reddit_api
 
 class RedditAPITests: XCTestCase {
 
+
     let expectedNumberOfReddits = 10
     
     func testTopRedditsStubbingNow() throws {
@@ -27,7 +28,7 @@ class RedditAPITests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(listing.children.count , expectedNumberOfReddits)
+            XCTAssertEqual(listing.children.count , self.expectedNumberOfReddits)
         }
 
         waitForExpectations(timeout: 0.0001)
@@ -45,7 +46,7 @@ class RedditAPITests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(listing.children.count , expectedNumberOfReddits)
+            XCTAssertEqual(listing.children.count , self.expectedNumberOfReddits)
         }
 
         waitForExpectations(timeout: 0.005)
