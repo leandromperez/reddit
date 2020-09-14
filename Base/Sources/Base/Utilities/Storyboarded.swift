@@ -9,13 +9,18 @@
 import Foundation
 import UIKit
 
-protocol Storyboarded {
-    static func instantiate() -> Self
+public protocol Storyboarded {
+    static func fromStoryboard(bundle: Bundle) -> Self
 }
 
 extension Storyboarded where Self: UIViewController {
-    static func instantiate(bundle: Bundle = .main) -> Self {
+    public static func fromStoryboard(bundle: Bundle = .main) -> Self {
         guard let className = NSStringFromClass(self).components(separatedBy: ".").last else { fatalError() }
-        return UIStoryboard(name: className, bundle: bundle).instantiateViewController(withIdentifier: className) as! Self
+        let storyboard = UIStoryboard(name: className, bundle: bundle)
+        if let vc = storyboard.instantiateInitialViewController() as? Self {
+            return vc
+        }
+        return storyboard.instantiateViewController(withIdentifier: className) as! Self
+
     }
 }

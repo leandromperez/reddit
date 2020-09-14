@@ -8,22 +8,27 @@
 
 import UIKit
 import Reddit_api
+import Base
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, Storyboarded {
 
-    var coordinator : MainCoordinator!
+    weak var coordinator : MainCoordinator!
+
     var interactor : MasterInteractor!
 
     private var disposeBag = DisposeBag()
+
+    static func fromStoryboard(coordinator : MainCoordinator, interactor: MasterInteractor) -> MasterViewController {
+        let instance = MasterViewController.fromStoryboard()
+        instance.coordinator = coordinator
+        instance.interactor = interactor
+        return instance
+    }
+
     private var elements: [Displayable] = [] {
         didSet {
             tableView.reloadData()
         }
-    }
-
-    func setup(coordinator: MainCoordinator, interactor: MasterInteractor) {
-        self.coordinator = coordinator
-        self.interactor = interactor
     }
 
     override func viewDidLoad() {
@@ -66,7 +71,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let displayable = elements[indexPath.row] 
+        let displayable = elements[indexPath.row]
         cell.textLabel!.text = displayable.title
         return cell
     }
@@ -85,6 +90,10 @@ class MasterViewController: UITableViewController {
         }
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
+        self.coordinator.openDetails(of: reddit)
+    }
 
 }
 

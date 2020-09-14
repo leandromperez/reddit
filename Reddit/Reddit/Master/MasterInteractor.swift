@@ -20,7 +20,7 @@ class MasterInteractor {
     var viewModel : CurrentValueSubject<MasterViewModel<Reddit>, Never>
 
     //MARK: - lifecycle
-    internal init(redditAPI: RedditAPI) {
+    internal init(redditAPI: RedditAPI = Current.redditAPI) {
         self.redditAPI = redditAPI
         self.viewModel = CurrentValueSubject(MasterViewModel(error: nil, elements: []))
     }
@@ -28,13 +28,6 @@ class MasterInteractor {
     //MARK: -
     
     func loadReddits() {
-//        redditAPI.topReddits().publisher()
-//            .map(\.children)
-//            .map(MasterViewModel<Reddit>.init)
-//            .print()
-//            .subscribe(viewModel)
-//            .store(in: &disposeBag)
-
         redditAPI.topReddits().call(stub: .now) {[weak self] (result) in
             var error : Error? = nil
             guard let self = self else {return}
@@ -55,3 +48,7 @@ class MasterInteractor {
 }
 
 typealias DisposeBag = Set<AnyCancellable>
+
+
+//In case I want to inject the endpoint
+//typealias TopRedditsEndpoint = (Int, String, String?) -> Endpoint<ReddditListing>

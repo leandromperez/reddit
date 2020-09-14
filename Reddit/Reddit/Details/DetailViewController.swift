@@ -7,20 +7,11 @@
 //
 
 import UIKit
+import Base
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, Storyboarded {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-
-
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = detailItem {
-            if let label = detailDescriptionLabel {
-                label.text = detail.description
-            }
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +26,11 @@ class DetailViewController: UIViewController {
         }
     }
 
-
+    private func configureView() {
+        // Update the user interface for the detail item.
+        if let detail = detailItem {
+            detailDescriptionLabel.text = detail.description
+        }
+    }
 }
 
