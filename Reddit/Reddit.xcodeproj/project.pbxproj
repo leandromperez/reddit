@@ -20,6 +20,11 @@
 		9CDA13F5250E72A8005931B3 /* stub-Listing<Reddit>.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */; };
 		9CDA1407250E7AFE005931B3 /* Reddit-api in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA1406250E7AFE005931B3 /* Reddit-api */; };
 		9CDA140B250EE889005931B3 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA140A250EE889005931B3 /* Detail.storyboard */; };
+		9CDA140D250EEFAC005931B3 /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA140C250EEFAC005931B3 /* Storyboards.swift */; };
+		9CDA140F250EEFDC005931B3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */; };
+		9CDA142E250EF375005931B3 /* Enrivonment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA142D250EF375005931B3 /* Enrivonment.swift */; };
+		9CDA1430250EF5C6005931B3 /* MasterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA142F250EF5C6005931B3 /* MasterViewModel.swift */; };
+		9CDA1432250EF91F005931B3 /* MasterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA1431250EF91F005931B3 /* MasterInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 		9CDA13E4250E6705005931B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stub-Listing<Reddit>.json"; sourceTree = "<group>"; };
 		9CDA140A250EE889005931B3 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
+		9CDA140C250EEFAC005931B3 /* Storyboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
+		9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		9CDA142D250EF375005931B3 /* Enrivonment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrivonment.swift; sourceTree = "<group>"; };
+		9CDA142F250EF5C6005931B3 /* MasterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewModel.swift; sourceTree = "<group>"; };
+		9CDA1431250EF91F005931B3 /* MasterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,9 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */,
-				9CDA13C9250E6703005931B3 /* AppDelegate.swift */,
-				9CDA13CB250E6703005931B3 /* SceneDelegate.swift */,
-				9CDA13CD250E6703005931B3 /* MasterViewController.swift */,
+				9CDA1434250EF97B005931B3 /* Application */,
+				9CDA1433250EF966005931B3 /* Master */,
 				9CDA13CF250E6703005931B3 /* DetailViewController.swift */,
 				9CDA13D1250E6703005931B3 /* Main.storyboard */,
 				9CDA140A250EE889005931B3 /* Detail.storyboard */,
@@ -120,6 +129,28 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9CDA1433250EF966005931B3 /* Master */ = {
+			isa = PBXGroup;
+			children = (
+				9CDA13CD250E6703005931B3 /* MasterViewController.swift */,
+				9CDA142F250EF5C6005931B3 /* MasterViewModel.swift */,
+				9CDA1431250EF91F005931B3 /* MasterInteractor.swift */,
+			);
+			path = Master;
+			sourceTree = "<group>";
+		};
+		9CDA1434250EF97B005931B3 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9CDA13C9250E6703005931B3 /* AppDelegate.swift */,
+				9CDA142D250EF375005931B3 /* Enrivonment.swift */,
+				9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */,
+				9CDA140C250EEFAC005931B3 /* Storyboards.swift */,
+				9CDA13CB250E6703005931B3 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,9 +261,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDA1430250EF5C6005931B3 /* MasterViewModel.swift in Sources */,
 				9CDA13CA250E6703005931B3 /* AppDelegate.swift in Sources */,
+				9CDA140F250EEFDC005931B3 /* MainCoordinator.swift in Sources */,
+				9CDA140D250EEFAC005931B3 /* Storyboards.swift in Sources */,
 				9CDA13CC250E6703005931B3 /* SceneDelegate.swift in Sources */,
 				9CDA13CE250E6703005931B3 /* MasterViewController.swift in Sources */,
+				9CDA1432250EF91F005931B3 /* MasterInteractor.swift in Sources */,
+				9CDA142E250EF375005931B3 /* Enrivonment.swift in Sources */,
 				9CDA13D0250E6703005931B3 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

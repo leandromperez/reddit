@@ -62,3 +62,53 @@ extension URLSession {
         return task
     }
 }
+
+
+//MARK: - Calling an endpoint
+
+extension Endpoint where A : Decodable {
+    /// Creates a task to connect to the receiver (If not stubbed)
+    /// - Parameters:
+    ///   - stub: `.never` by default, in any other case, the sessio will not be used
+    ///   - session: the session used to create the task. `.shared` by default
+    ///   - onComplete: the callback handler
+    /// - Returns: an already resumed task.
+    @discardableResult
+    public func call(stub: StubbingBehavior = .never,
+                     session : URLSession = .shared,
+                     onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
+        stub.call(endpoint: self, onComplete: onComplete)
+    }
+}
+
+
+//MARK: - Combine
+
+#if canImport(Combine)
+import Combine
+
+@available(iOS 13, macOS 10.15, watchOS 6, tvOS 13, *)
+extension URLSession {
+    /// Returns a publisher that wraps a URL session data task for a given Endpoint.
+    ///
+    /// - Parameters:
+    ///   - e: The endpoint.
+    /// - Returns: The publisher of a dataTask.
+    public func load<A>(_ e: Endpoint<A>) -> AnyPublisher<A, Error> {
+        let r = e.request
+        return dataTaskPublisher(for: r)
+            .tryMap { data, resp in
+                guard let h = resp as? HTTPURLResponse else {
+                    throw UnknownError()
+                }
+
+                guard e.expectedStatusCode(h.statusCode) else {
+                    throw WrongStatusCodeError(statusCode: h.statusCode, response: h, responseBody: data)
+                }
+
+                return try e.parse(data, resp).get()
+        }
+        .eraseToAnyPublisher()
+    }
+}
+#endif

@@ -7,24 +7,29 @@
 //
 
 import UIKit
+import Reddit_api
 
 class MasterViewController: UITableViewController {
 
-    var detailViewController: DetailViewController? = nil
-    var objects = [Any]()
+    var coordinator : MainCoordinator!
+    var interactor : MasterInteractor!
+
+    private var disposeBag = DisposeBag()
+    private var elements: [Displayable] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    func setup(coordinator: MainCoordinator, interactor: MasterInteractor) {
+        self.coordinator = coordinator
+        self.interactor = interactor
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        navigationItem.leftBarButtonItem = editButtonItem
-
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-        navigationItem.rightBarButtonItem = addButton
-        if let split = splitViewController {
-            let controllers = split.viewControllers
-            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-        }
+        self.bindReddits()
+        interactor.loadReddits()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,25 +37,20 @@ class MasterViewController: UITableViewController {
         super.viewWillAppear(animated)
     }
 
-    @objc
-    func insertNewObject(_ sender: Any) {
-        objects.insert(NSDate(), at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
+    private func bindReddits() {
+        self.interactor.viewModel
+            .map(\.elements).map{$0}
+            .assign(to: \.elements, on: self)
+            .store(in: &disposeBag)
     }
+
 
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row] as! NSDate
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
-                detailViewController = controller
-            }
+        if segue.equals(.showDetails),
+            let indexPath = tableView.indexPathForSelectedRow, let reddit = interactor.reddit(at: indexPath){
+            coordinator.openDetails(of: reddit)
         }
     }
 
@@ -61,13 +61,13 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return elements.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let object = objects[indexPath.row] as! NSDate
-        cell.textLabel!.text = object.description
+        let displayable = elements[indexPath.row] 
+        cell.textLabel!.text = displayable.title
         return cell
     }
 
@@ -78,7 +78,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            objects.remove(at: indexPath.row)
+            elements.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -88,3 +88,14 @@ class MasterViewController: UITableViewController {
 
 }
 
+
+extension UIStoryboardSegue {
+    func equals(_ segue : Segue) -> Bool {
+        return self.identifier == segue.rawValue
+    }
+}
+
+
+enum Segue : String {
+    case showDetails
+}
