@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = Current.coordinator.splitViewController
         window?.makeKeyAndVisible()
+        Current.coordinator.start()
         return true
     }
 }

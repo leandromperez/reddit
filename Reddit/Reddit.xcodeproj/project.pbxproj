@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9C78DB4725101A5C0024415C /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C78DB4625101A5C0024415C /* MainSplitViewController.swift */; };
 		9CDA13CA250E6703005931B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA13C9250E6703005931B3 /* AppDelegate.swift */; };
 		9CDA13CE250E6703005931B3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA13CD250E6703005931B3 /* MasterViewController.swift */; };
 		9CDA13D0250E6703005931B3 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA13CF250E6703005931B3 /* DetailViewController.swift */; };
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9C78DB4625101A5C0024415C /* MainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		9CDA13C6250E6703005931B3 /* Reddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDA13C9250E6703005931B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CDA13CD250E6703005931B3 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -87,15 +85,6 @@
 			path = Details;
 			sourceTree = "<group>";
 		};
-		9C78DB482510206F0024415C /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */,
-				9C78DB4625101A5C0024415C /* MainSplitViewController.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
 		9CDA13BD250E6703005931B3 = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +109,6 @@
 			children = (
 				9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */,
 				9CDA1434250EF97B005931B3 /* Application */,
-				9C78DB482510206F0024415C /* Main */,
 				9CDA1433250EF966005931B3 /* Master */,
 				9C246612251025B9002555E8 /* Details */,
 				9CDA13D4250E6705005931B3 /* Assets.xcassets */,
@@ -162,6 +150,7 @@
 			children = (
 				9CDA13C9250E6703005931B3 /* AppDelegate.swift */,
 				9CDA142D250EF375005931B3 /* Enrivonment.swift */,
+				9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -274,7 +263,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C78DB4725101A5C0024415C /* MainSplitViewController.swift in Sources */,
 				9CDA1430250EF5C6005931B3 /* MasterViewModel.swift in Sources */,
 				9CDA13CA250E6703005931B3 /* AppDelegate.swift in Sources */,
 				9CDA140F250EEFDC005931B3 /* MainCoordinator.swift in Sources */,

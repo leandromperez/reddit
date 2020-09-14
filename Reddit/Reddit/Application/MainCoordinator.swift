@@ -16,9 +16,7 @@ class MainCoordinator : Coordinator {
     var masterViewController: MasterViewController!
     var navigationController: UINavigationController
 
-    lazy var splitViewController: MainSplitViewController = {
-        MainSplitViewController(coordinator: self)
-    }()
+    lazy var splitViewController: UISplitViewController = UISplitViewController()
 
     init(navigationController: UINavigationController = UINavigationController()) {
         self.navigationController = navigationController
