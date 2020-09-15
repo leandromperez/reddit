@@ -15,7 +15,12 @@ class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
 
-    private lazy var masterViewController: MasterViewController = MasterViewController.fromStoryboard(coordinator: self, interactor: MasterInteractor())
+    private lazy var redditsViewController: RedditsViewController = {
+        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .never)
+        let instance = RedditsViewController.fromStoryboard(coordinator: self, interactor: interactor)
+        return instance
+    }()
+
     private lazy var detailsViewController: DetailViewController = DetailViewController.fromStoryboard()
 
     lazy var splitViewController: UISplitViewController = UISplitViewController()
@@ -25,7 +30,7 @@ class MainCoordinator : Coordinator {
     }
 
     func start() {
-        let masterNavigator = UINavigationController(rootViewController: masterViewController)
+        let masterNavigator = UINavigationController(rootViewController: redditsViewController)
         let detailsNavigator = UINavigationController(rootViewController: detailsViewController)
 
         masterNavigator.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem

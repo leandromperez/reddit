@@ -16,7 +16,9 @@ import Base
 public enum StubbingBehavior {
     case never
     case now
+    case nowWithElement(Any)
     case after(time:DispatchTimeInterval)
+    case error(Error)
 }
 
 public extension StubbingBehavior {
@@ -38,7 +40,16 @@ public extension StubbingBehavior {
             dispatchQueue.asyncAfter(deadline: .now() + dispatchTime){
                 self.stubbedElementFromJson(endpoint: endpoint, stub: stub, callback: onComplete)
             }
+        case .error(let error):
+            dispatchQueue.async {
+                onComplete(.failure(error))
+            }
+        case .nowWithElement(let element):
+            dispatchQueue.async {
+                onComplete(.success(element as! Element))
+            }
         }
+
         return nil
     }
 
@@ -54,3 +65,4 @@ public extension StubbingBehavior {
         }
     }
 }
+

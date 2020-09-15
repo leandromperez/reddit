@@ -10,22 +10,22 @@ import UIKit
 import Reddit_api
 import Base
 
-class MasterViewController: UIViewController, Storyboarded {
+class RedditsViewController: UIViewController, Storyboarded {
 
     private weak var coordinator : MainCoordinator!
-    private var interactor : MasterInteractor!
+    private var interactor : RedditsInteractor!
     private var redditsViewModel: ElementsViewModel<Reddit>!
 
     @IBOutlet weak var tableView : UITableView!
 
     //MARK: - lifecycle
 
-    static func fromStoryboard(coordinator : MainCoordinator, interactor: MasterInteractor) -> MasterViewController {
-        let instance = MasterViewController.fromStoryboard()
+    static func fromStoryboard(coordinator : MainCoordinator, interactor: RedditsInteractor) -> RedditsViewController {
+        let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor
         instance.redditsViewModel = ElementsViewModel()
-        interactor.viewController = instance
+        interactor.presenter = instance
         return instance
     }
 
@@ -38,17 +38,6 @@ class MasterViewController: UIViewController, Storyboarded {
         interactor.loadReddits()
     }
 
-    //MARK: - updating UI
-
-    func display(reddits: [Reddit]) {
-        self.redditsViewModel.elements = reddits
-        self.tableView.reloadData()
-    }
-
-    func display(error: Error) {
-        self.presentError(message: error.localizedDescription)
-    }
-
     //MARK: - actions
 
     private func openReddit(at indexPath: IndexPath) {
@@ -58,8 +47,20 @@ class MasterViewController: UIViewController, Storyboarded {
 }
 
 
-extension MasterViewController : UITableViewDelegate {
+extension RedditsViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         openReddit(at: indexPath)
+    }
+}
+
+extension RedditsViewController : RedditsPresenter {
+
+    func display(reddits: [Reddit]) {
+        self.redditsViewModel.elements = reddits
+        self.tableView.reloadData()
+    }
+
+    func display(error: Error) {
+        self.presentError(message: error.localizedDescription)
     }
 }
