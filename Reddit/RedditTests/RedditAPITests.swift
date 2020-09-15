@@ -13,7 +13,6 @@ import Reddit_api
 
 class RedditAPITests: XCTestCase {
 
-
     let expectedNumberOfReddits = 10
     
     func testTopRedditsStubbingNow() throws {
