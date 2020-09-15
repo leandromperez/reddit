@@ -27,7 +27,7 @@ class RedditAPITests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(listing.children.count , expectedNumberOfReddits)
+            XCTAssertEqual(listing.children.count , self.expectedNumberOfReddits)
         }
 
         waitForExpectations(timeout: 0.0001)
@@ -45,7 +45,7 @@ class RedditAPITests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(listing.children.count , expectedNumberOfReddits)
+            XCTAssertEqual(listing.children.count , self.expectedNumberOfReddits)
         }
 
         waitForExpectations(timeout: 0.005)
