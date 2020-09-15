@@ -62,3 +62,21 @@ extension URLSession {
         return task
     }
 }
+
+
+//MARK: - Calling an endpoint
+
+extension Endpoint where A : Decodable {
+    /// Creates a task to connect to the receiver (If not stubbed)
+    /// - Parameters:
+    ///   - stub: `.never` by default, in any other case, the sessio will not be used
+    ///   - session: the session used to create the task. `.shared` by default
+    ///   - onComplete: the callback handler
+    /// - Returns: an already resumed task.
+    @discardableResult
+    public func call(stub: StubbingBehavior = .never,
+                     session : URLSession = .shared,
+                     onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
+        stub.call(endpoint: self, onComplete: onComplete)
+    }
+}

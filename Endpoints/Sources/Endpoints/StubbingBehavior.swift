@@ -54,16 +54,3 @@ public extension StubbingBehavior {
         }
     }
 }
-
-extension Endpoint where A : Decodable {
-    @discardableResult
-    public func call(stub: StubbingBehavior = .never,
-                     session : URLSession = .shared,
-                     onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
-        stub.call(endpoint: self, onComplete: onComplete)
-    }
-}
-
-
-
-
