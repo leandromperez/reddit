@@ -54,18 +54,3 @@ public extension StubbingBehavior {
         }
     }
 }
-
-//MARK: - Combine
-
-#if canImport(Combine)
-import Combine
-
-@available(iOS 13, macOS 10.15, watchOS 6, tvOS 13, *)
-
-extension Endpoint where A : Decodable {
-    public func publisher(session : URLSession = .shared ) -> AnyPublisher<A, Error> {
-        session.load(self)
-    }
-}
-
-#endif

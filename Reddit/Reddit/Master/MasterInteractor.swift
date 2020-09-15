@@ -9,36 +9,42 @@
 import Foundation
 import Reddit_api
 import Base
-import Combine
+import Endpoints
 
 class MasterInteractor {
 
+    /// It will be called when the interactor gets new information afte performing actions.
+    weak var viewController: MasterViewController!
+
     private let redditAPI: RedditAPI
     private var reddits: [Reddit] = []
-    private var disposeBag = DisposeBag()
-
-    var viewModel : CurrentValueSubject<MasterViewModel<Reddit>, Never>
+    private let stubbing: StubbingBehavior
 
     //MARK: - lifecycle
-    internal init(redditAPI: RedditAPI = Current.redditAPI) {
+
+    ///
+    /// - Parameters:
+    ///   - redditAPI: Used to load reddits
+    ///   - stubbing: the behavior used to call the endpoints
+    internal init(redditAPI: RedditAPI = Current.redditAPI, stubbing: StubbingBehavior = .now) {
         self.redditAPI = redditAPI
-        self.viewModel = CurrentValueSubject(MasterViewModel(error: nil, elements: []))
+        self.stubbing = stubbing
     }
 
     //MARK: -
-    
+
+    /// Hits the top reddits endpoint and updates the view cotroller when it gets the result
     func loadReddits() {
-        redditAPI.topReddits().call(stub: .now) {[weak self] (result) in
-            var error : Error? = nil
+        redditAPI.topReddits().call(stub: stubbing) {[weak self] (result) in
             guard let self = self else {return}
+
             switch result {
-            case .failure(let e) :
-                error = e
+            case .failure(let error) :
+                self.viewController.display(error: error)
             case .success(let listing):
                 self.reddits = listing.children
+                self.viewController.display(reddits: self.reddits)
             }
-
-            self.viewModel.send(MasterViewModel(error: error, elements: self.reddits))
         }
     }
 
@@ -46,9 +52,3 @@ class MasterInteractor {
         reddits[safe: indexPath.row]
     }
 }
-
-typealias DisposeBag = Set<AnyCancellable>
-
-
-//In case I want to inject the endpoint
-//typealias TopRedditsEndpoint = (Int, String, String?) -> Endpoint<ReddditListing>

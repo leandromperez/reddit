@@ -8,15 +8,26 @@
 import Foundation
 import Base
 
-struct ImageError: Error {}
 
-extension Endpoint where A == Image {
+public struct ImageError: Error {}
+
+public extension Endpoint where A == Image {
+
     init(imageURL: URL) {
         self = Endpoint(.get, url: imageURL) { (data, response) in
             Result {
-                guard let d = data, let i = Image(data: d) else { throw ImageError() }
+                guard let d = data, let i = Image(data: d) else {
+                    throw ImageError()
+                }
                 return i
             }
         }
     }
+
+    @discardableResult
+    func call(session : URLSession = .shared, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
+        session.load(self, onComplete: onComplete)
+    }
 }
+
+
