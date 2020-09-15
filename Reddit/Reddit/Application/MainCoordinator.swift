@@ -15,8 +15,13 @@ class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
 
-    private lazy var masterViewController: MasterViewController = MasterViewController.fromStoryboard(coordinator: self, interactor: MasterInteractor())
-    private lazy var detailsViewController: DetailViewController = DetailViewController.fromStoryboard()
+    private lazy var redditsViewController: RedditsViewController = {
+        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .never)
+        let instance = RedditsViewController.fromStoryboard(coordinator: self, interactor: interactor)
+        return instance
+    }()
+
+    private lazy var detailsViewController: RedditDetailsViewController = RedditDetailsViewController.fromStoryboard()
 
     lazy var splitViewController: UISplitViewController = UISplitViewController()
 
@@ -25,7 +30,7 @@ class MainCoordinator : Coordinator {
     }
 
     func start() {
-        let masterNavigator = UINavigationController(rootViewController: masterViewController)
+        let masterNavigator = UINavigationController(rootViewController: redditsViewController)
         let detailsNavigator = UINavigationController(rootViewController: detailsViewController)
 
         masterNavigator.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
@@ -56,7 +61,7 @@ extension MainCoordinator : UISplitViewControllerDelegate {
 
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
+        guard let topAsDetailController = secondaryAsNavController.topViewController as? RedditDetailsViewController else { return false }
         if topAsDetailController.detailItem == nil {
             // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
             return true

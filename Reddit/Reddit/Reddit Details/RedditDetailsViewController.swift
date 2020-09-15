@@ -9,7 +9,7 @@
 import UIKit
 import Base
 
-class DetailViewController: UIViewController, Storyboarded {
+class RedditDetailsViewController: UIViewController, Storyboarded {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 

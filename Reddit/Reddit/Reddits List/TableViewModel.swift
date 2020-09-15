@@ -1,5 +1,5 @@
 //
-//  MasterViewModel.swift
+//  TableViewModel.swift
 //  Reddit
 //
 //  Created by Leandro Perez on 9/13/20.
@@ -11,8 +11,9 @@ import Reddit_api
 import Base
 import UIKit
 
-class ElementsViewModel<Element: AuthorDisplayable> : NSObject, UITableViewDataSource {
+class TableViewModel<Element: CellDisplayable> : NSObject, UITableViewDataSource {
     var elements : [Element]
+    var onDelete: Handler<[IndexPath]>?
 
     internal init(elements: [Element] = []) {
         self.elements = elements
@@ -32,15 +33,14 @@ class ElementsViewModel<Element: AuthorDisplayable> : NSObject, UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let displayable = elements[indexPath.row]
         cell.textLabel!.text = displayable.title
-        cell.detailTextLabel?.text = displayable.author
-        if let url = URL(string: displayable.thumbnail) {
+        cell.detailTextLabel?.text = displayable.details
+        if let url = displayable.thumbnailURL {
             cell.imageView?.loadImageFrom(url: url, placeholder: UIImage(systemName: "photo"))
         }
         return cell
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
 
@@ -48,18 +48,33 @@ class ElementsViewModel<Element: AuthorDisplayable> : NSObject, UITableViewDataS
         if editingStyle == .delete {
             elements.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            onDelete?([indexPath])
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
+
+
 }
 
-protocol AuthorDisplayable {
-    var author : String {get}
-    var thumbnail : String {get}
+protocol CellDisplayable {
+    var subtitle : String {get}
+    var thumbnailURL : URL? {get}
     var title: String {get}
-    var numberOfComments : Int {get}
+    var details : String {get}
 }
 
-extension Reddit : AuthorDisplayable {}
+extension Reddit : CellDisplayable {
+    var subtitle: String {
+        author
+    }
+
+    var thumbnailURL: URL? {
+        URL(string: thumbnail)
+    }
+
+    var details: String {
+        numberOfComments.description
+    }
+}
 

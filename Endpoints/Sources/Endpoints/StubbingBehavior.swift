@@ -16,7 +16,9 @@ import Base
 public enum StubbingBehavior {
     case never
     case now
+    case nowWithElement(Any)
     case after(time:DispatchTimeInterval)
+    case error(Error)
 }
 
 public extension StubbingBehavior {
@@ -29,7 +31,7 @@ public extension StubbingBehavior {
                                  onComplete: @escaping (Result<Element, Error>) -> ()) -> URLSessionDataTask? {
         switch self {
         case .never:
-            return urlSession.load(endpoint, onComplete: onComplete)
+            return urlSession.load(endpoint, dispatchQueue: dispatchQueue, onComplete: onComplete)
         case .now:
             dispatchQueue.async {
                 self.stubbedElementFromJson(endpoint: endpoint, stub: stub, callback: onComplete)
@@ -38,7 +40,16 @@ public extension StubbingBehavior {
             dispatchQueue.asyncAfter(deadline: .now() + dispatchTime){
                 self.stubbedElementFromJson(endpoint: endpoint, stub: stub, callback: onComplete)
             }
+        case .error(let error):
+            dispatchQueue.async {
+                onComplete(.failure(error))
+            }
+        case .nowWithElement(let element):
+            dispatchQueue.async {
+                onComplete(.success(element as! Element))
+            }
         }
+
         return nil
     }
 
@@ -54,3 +65,4 @@ public extension StubbingBehavior {
         }
     }
 }
+

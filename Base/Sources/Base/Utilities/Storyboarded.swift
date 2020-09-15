@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+//Approach taken from https://www.hackingwithswift.com/articles/71/how-to-use-the-coordinator-pattern-in-ios-apps
+
 public protocol Storyboarded {
     static func fromStoryboard(bundle: Bundle) -> Self
 }
