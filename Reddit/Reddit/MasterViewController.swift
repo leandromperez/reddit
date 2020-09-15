@@ -13,13 +13,8 @@ class MasterViewController: UITableViewController {
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("will invoke endpoint")
-
-     
 
         // Do any additional setup after loading the view.
         navigationItem.leftBarButtonItem = editButtonItem

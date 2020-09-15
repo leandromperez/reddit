@@ -10,6 +10,7 @@ import Foundation
 public struct Reddit : Codable {
     private struct Data : Codable {
         let author: String
+        let numComments: Int?
         let thumbnail: String
         let title: String
         let url: String
@@ -32,5 +33,9 @@ public struct Reddit : Codable {
 
     public var url: String {
         data.url
+    }
+
+    public var numberOfComments: Int {
+        data.numComments ?? 0
     }
 }

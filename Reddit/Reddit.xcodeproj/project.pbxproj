@@ -19,6 +19,7 @@
 		9CDA13F1250E6BC5005931B3 /* Endpoints in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA13F0250E6BC5005931B3 /* Endpoints */; };
 		9CDA13F5250E72A8005931B3 /* stub-Listing<Reddit>.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */; };
 		9CDA1407250E7AFE005931B3 /* Reddit-api in Frameworks */ = {isa = PBXBuildFile; productRef = 9CDA1406250E7AFE005931B3 /* Reddit-api */; };
+		9CDA140B250EE889005931B3 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA140A250EE889005931B3 /* Detail.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		9CDA13E2250E6705005931B3 /* RedditAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditAPITests.swift; sourceTree = "<group>"; };
 		9CDA13E4250E6705005931B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CDA13F4250E72A8005931B3 /* stub-Listing<Reddit>.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stub-Listing<Reddit>.json"; sourceTree = "<group>"; };
+		9CDA140A250EE889005931B3 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				9CDA13CD250E6703005931B3 /* MasterViewController.swift */,
 				9CDA13CF250E6703005931B3 /* DetailViewController.swift */,
 				9CDA13D1250E6703005931B3 /* Main.storyboard */,
+				9CDA140A250EE889005931B3 /* Detail.storyboard */,
 				9CDA13D4250E6705005931B3 /* Assets.xcassets */,
 				9CDA13D6250E6705005931B3 /* LaunchScreen.storyboard */,
 				9CDA13D9250E6705005931B3 /* Info.plist */,
@@ -209,6 +212,7 @@
 				9CDA13F5250E72A8005931B3 /* stub-Listing<Reddit>.json in Resources */,
 				9CDA13D5250E6705005931B3 /* Assets.xcassets in Resources */,
 				9CDA13D3250E6703005931B3 /* Main.storyboard in Resources */,
+				9CDA140B250EE889005931B3 /* Detail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
