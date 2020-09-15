@@ -31,7 +31,7 @@ public extension StubbingBehavior {
                                  onComplete: @escaping (Result<Element, Error>) -> ()) -> URLSessionDataTask? {
         switch self {
         case .never:
-            return urlSession.load(endpoint, onComplete: onComplete)
+            return urlSession.load(endpoint, dispatchQueue: dispatchQueue, onComplete: onComplete)
         case .now:
             dispatchQueue.async {
                 self.stubbedElementFromJson(endpoint: endpoint, stub: stub, callback: onComplete)

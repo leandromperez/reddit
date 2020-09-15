@@ -14,7 +14,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private weak var coordinator : MainCoordinator!
     private var interactor : RedditsInteractor!
-    private var redditsViewModel: ElementsViewModel<Reddit>!
+    private var redditsViewModel: TableViewModel<Reddit>!
 
     @IBOutlet weak var tableView : UITableView!
 
@@ -24,7 +24,7 @@ class RedditsViewController: UIViewController, Storyboarded {
         let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor
-        instance.redditsViewModel = ElementsViewModel()
+        instance.redditsViewModel = TableViewModel()
         interactor.presenter = instance
         return instance
     }
@@ -32,9 +32,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.delegate = self
-        tableView.dataSource = self.redditsViewModel
-
+        configureTable()
         interactor.loadReddits()
     }
 
@@ -42,8 +40,22 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private func openReddit(at indexPath: IndexPath) {
         guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
-        self.coordinator.openDetails(of: reddit)
+        coordinator.openDetails(of: reddit)
     }
+
+    //MARK: - actions
+
+    private func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self.redditsViewModel
+
+        self.redditsViewModel.onDelete = { [unowned self] indexPaths in
+            for indexPath in indexPaths {
+                self.interactor.removeReddit(at: indexPath)
+            }
+        }
+    }
+
 }
 
 

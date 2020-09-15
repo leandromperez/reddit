@@ -55,6 +55,10 @@ class RedditsInteractor {
         reddits[safe: indexPath.row]
     }
 
+
+    func removeReddit(at index:IndexPath) {
+
+    }
     
 }
 

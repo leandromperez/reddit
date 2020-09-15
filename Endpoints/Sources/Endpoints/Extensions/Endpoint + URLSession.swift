@@ -38,25 +38,32 @@ extension URLSession {
     ///   - endpoint: The endpoint.
     ///   - onComplete: The completion handler.
     /// - Returns: The data task.
-    public func load<A>(_ endpoint: Endpoint<A>, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
+    public func load<A>(_ endpoint: Endpoint<A>, dispatchQueue : DispatchQueue = .main, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask {
         let r = endpoint.request
         let task = dataTask(with: r, completionHandler: { data, resp, err in
             if let err = err {
-                onComplete(.failure(err))
+                dispatchQueue.async {
+                    onComplete(.failure(err))
+                }
                 return
             }
 
             guard let h = resp as? HTTPURLResponse else {
-                onComplete(.failure(UnknownError()))
+                dispatchQueue.async {
+                    onComplete(.failure(UnknownError()))
+                }
                 return
             }
 
             guard endpoint.expectedStatusCode(h.statusCode) else {
-                onComplete(.failure(WrongStatusCodeError(statusCode: h.statusCode, response: h, responseBody: data)))
+                dispatchQueue.async {
+                    onComplete(.failure(WrongStatusCodeError(statusCode: h.statusCode, response: h, responseBody: data)))
+                }
                 return
             }
-
-            onComplete(endpoint.parse(data,resp))
+            dispatchQueue.async {
+                onComplete(endpoint.parse(data,resp))
+            }
         })
         task.resume()
         return task
