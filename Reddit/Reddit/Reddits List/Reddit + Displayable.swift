@@ -11,7 +11,7 @@ import Reddit_api
 
 extension Reddit : Displayable {
     var subtitle: String {
-        author
+        "Score: \(score.description)"
     }
 
     var thumbnailURL: URL? {
@@ -19,13 +19,15 @@ extension Reddit : Displayable {
     }
 
     var timeFromNow: String {
-        guard let creationDate = created else {return "some time ago"}
+        let unknown = "some time ago"
+        guard let creationDate = created else {return unknown}
 
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: creationDate, to: Date())
-        if let years = components.yea, years > 0{
+        if let years = components.year, years > 0 {
             return "\(years) years"
-        } else 
-        if let days = components.day, days > 0, let hour = components.hour {
+        } else if let months = components.month, months > 0 {
+            return "\(months) months"
+        } else if let days = components.day, days > 0, let hour = components.hour {
             return "\(days) days, \(hour) hours"
         } else if let hours = components.hour, hours > 0, let minute = components.minute {
             return "\(hours) hours \(minute) minutes"
@@ -35,11 +37,11 @@ extension Reddit : Displayable {
             return "\(seconds) seconds"
         }
 
-        return "some time ago"
+        return unknown
     }
 
     var details: String {
-        "Score: \(score.description), posted by: \(author), created \(timeFromNow) from now."
+        "Posted by: \(author), \(timeFromNow) from now."
     }
 }
 
