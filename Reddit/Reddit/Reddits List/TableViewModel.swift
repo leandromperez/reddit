@@ -40,7 +40,6 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
         cell.displayable = elements[indexPath.row]
         return cell
     }
-
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
