@@ -11,12 +11,19 @@ import Reddit_api
 import Base
 import UIKit
 
-class TableViewModel<Element: CellDisplayable> : NSObject, UITableViewDataSource {
+class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource {
     var elements : [Element]
     var onDelete: Handler<[IndexPath]>?
 
     internal init(elements: [Element] = []) {
         self.elements = elements
+    }
+
+    func setup(tableView: UITableView ) {
+        tableView.dataSource = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+        Cell.registerNib(on: tableView)
     }
 
     //MARK: - UITableViewDataSource
@@ -30,16 +37,12 @@ class TableViewModel<Element: CellDisplayable> : NSObject, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let displayable = elements[indexPath.row]
-        cell.textLabel!.text = displayable.title
-        cell.detailTextLabel?.text = displayable.details
-        if let url = displayable.thumbnailURL {
-            cell.imageView?.loadImageFrom(url: url, placeholder: UIImage(systemName: "photo"))
-        }
+        var cell : Cell = tableView.cell(at: indexPath)
+        cell.displayable = elements[indexPath.row]
         return cell
     }
 
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -53,18 +56,20 @@ class TableViewModel<Element: CellDisplayable> : NSObject, UITableViewDataSource
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
-
-
 }
 
-protocol CellDisplayable {
+protocol DisplayableContainer {
+    var displayable: Displayable? {get set}
+}
+
+protocol Displayable {
     var subtitle : String {get}
     var thumbnailURL : URL? {get}
     var title: String {get}
     var details : String {get}
 }
 
-extension Reddit : CellDisplayable {
+extension Reddit : Displayable {
     var subtitle: String {
         author
     }
