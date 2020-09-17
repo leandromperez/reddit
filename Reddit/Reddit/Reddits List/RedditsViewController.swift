@@ -14,7 +14,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private weak var coordinator : MainCoordinator!
     private var interactor : RedditsInteractor!
-    private var redditsViewModel: TableViewModel<Reddit>!
+    private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
 
     @IBOutlet weak var tableView : UITableView!
 
@@ -47,7 +47,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private func configureTable() {
         tableView.delegate = self
-        tableView.dataSource = self.redditsViewModel
+        self.redditsViewModel.setup(tableView: tableView)
 
         self.redditsViewModel.onDelete = { [unowned self] indexPaths in
             for indexPath in indexPaths {
@@ -60,6 +60,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
 
 extension RedditsViewController : UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         openReddit(at: indexPath)
     }
