@@ -11,6 +11,7 @@ import Base
 import UIKit
 
 class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource {
+
     var elements : [Element]
     var onDelete: Handler<[IndexPath]>?
 
@@ -53,6 +54,11 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+
+    //MARK: - UITableViewDataSourcePrefetching
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+
     }
 }
 

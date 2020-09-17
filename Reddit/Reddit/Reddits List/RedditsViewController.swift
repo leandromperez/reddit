@@ -58,6 +58,11 @@ class RedditsViewController: UIViewController, Storyboarded {
 
 }
 
+extension RedditsViewController : UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        self.interactor.loadReddits(at: indexPaths)
+    }
+}
 
 extension RedditsViewController : UITableViewDelegate {
 

@@ -51,6 +51,11 @@ class RedditsInteractor {
         }
     }
 
+    func loadReddits(at: [IndexPath]) {
+        
+    }
+
+
     func reddit(at indexPath: IndexPath) -> Reddit? {
         reddits[safe: indexPath.row]
     }
