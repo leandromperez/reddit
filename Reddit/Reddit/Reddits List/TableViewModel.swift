@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Reddit_api
 import Base
 import UIKit
 
@@ -68,18 +67,3 @@ protocol Displayable {
     var title: String {get}
     var details : String {get}
 }
-
-extension Reddit : Displayable {
-    var subtitle: String {
-        author
-    }
-
-    var thumbnailURL: URL? {
-        URL(string: thumbnail)
-    }
-
-    var details: String {
-        numberOfComments.description
-    }
-}
-

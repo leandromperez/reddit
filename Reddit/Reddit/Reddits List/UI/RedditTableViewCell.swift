@@ -36,6 +36,5 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
         } else {
             self.thumbnail.image = UIImage(systemName: "photo")
         }
-        self.thumbnail.set(cornerRadius: 4)
     }
 }
