@@ -21,16 +21,21 @@ public extension UIImageView {
                                 placeholder: UIImage? = nil,
                                 onCompletion: Handler<Result<UIImage, Error>>? = nil) {
 
-        if let cached = cache?[url.absoluteString] {
-            onCompletion?(.success(cached))
-            return
-        }
+//        if let cached = cache?[url.absoluteString] {
+//            onCompletion?(.success(cached))
+//            print("cached!!! \(url)")
+//            return
+//        }
 
         self.image = placeholder
         Endpoint<UIImage>(imageURL: url).call {[weak self] (result) in
-            onCompletion?(result)
+
             DispatchQueue.main.async {
-                self?.image =  try? result.get()
+                let downloaded = try? result.get()
+                self?.image = downloaded
+                print("\(url.absoluteString) : \(downloaded)" )
+                cache?[url.absoluteString] = downloaded
+                onCompletion?(result)
             }
         }
     }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// It uses an `NSCache` instance clearing it automatically when a mem warning occurs. Use subscripts to access elements
 public class Cache<Element: NSObject> {
     private let cache = NSCache<NSString, Element>()
 

@@ -88,10 +88,10 @@ class RedditsInteractor {
     }
 
     private func downloadAndCacheImage(from url: URL) {
-        if imageCache != nil {
+        if imageCache != nil && imageCache?[url.absoluteString] == nil {
             Endpoint<UIImage>(imageURL: url).call(dispatchQueue:.global()) {[weak self] (result) in
                 if let image = try? result.get() {
-                    self?.imageCache?[url.absoluteString] = image
+//                    self?.imageCache?[url.absoluteString] = image
                 }
             }
         }
