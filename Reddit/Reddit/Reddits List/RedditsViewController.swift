@@ -16,7 +16,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     private var interactor : RedditsInteractor!
     private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
 
-    @IBOutlet weak var tableView : UITableView!
+    @IBOutlet var tableView : UITableView!
 
     //MARK: - lifecycle
 
@@ -24,14 +24,12 @@ class RedditsViewController: UIViewController, Storyboarded {
         let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor
-        instance.redditsViewModel = TableViewModel()
         interactor.presenter = instance
         return instance
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureTable()
         interactor.loadReddits()
     }
@@ -46,34 +44,48 @@ class RedditsViewController: UIViewController, Storyboarded {
     //MARK: - actions
 
     private func configureTable() {
-        tableView.delegate = self
-        self.redditsViewModel.setup(tableView: tableView)
-
-        self.redditsViewModel.onDelete = { [unowned self] indexPaths in
+        let onDelete : Handler<[IndexPath]> = { [unowned self] indexPaths in
             for indexPath in indexPaths {
                 self.interactor.removeReddit(at: indexPath)
             }
         }
-    }
 
-}
+        let onSelect: Handler<IndexPath> = {[unowned self] indexPath in
+            self.openReddit(at: indexPath)
+        }
 
+        let onPrefetch: Handler<[IndexPath]> = {[unowned self] indexPaths in
+            self.interactor.prefetchReddits(at: indexPaths)
+        }
 
-extension RedditsViewController : UITableViewDelegate {
+        let onWillReachBottom: Action = {[unowned self] in
+            self.interactor.loadMoreReddits()
+        }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        openReddit(at: indexPath)
+        self.redditsViewModel = TableViewModel(tableView: tableView,
+                                               onDelete: onDelete,
+                                               onPrefetch: onPrefetch,
+                                               onWillReachBottom:onWillReachBottom,
+                                               onSelect: onSelect)
+
     }
 }
 
 extension RedditsViewController : RedditsPresenter {
 
     func display(reddits: [Reddit]) {
-        self.redditsViewModel.elements = reddits
-        self.tableView.reloadData()
+        self.redditsViewModel.set(elements:  reddits)
+    }
+
+    func display(newReddits: [Reddit]) {
+        self.redditsViewModel.append(newElements: newReddits)
     }
 
     func display(error: Error) {
         self.presentError(message: error.localizedDescription)
     }
 }
+
+
+
+

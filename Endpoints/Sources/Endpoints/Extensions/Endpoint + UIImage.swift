@@ -25,8 +25,10 @@ public extension Endpoint where A == Image {
     }
 
     @discardableResult
-    func call(session : URLSession = .shared, onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
-        session.load(self, onComplete: onComplete)
+    func call(session : URLSession = .shared,
+              dispatchQueue:DispatchQueue = .main,
+              onComplete: @escaping (Result<A, Error>) -> ()) -> URLSessionDataTask? {
+        session.load(self, dispatchQueue: dispatchQueue, onComplete: onComplete)
     }
 }
 
