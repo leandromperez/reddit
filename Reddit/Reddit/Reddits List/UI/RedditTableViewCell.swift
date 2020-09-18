@@ -32,7 +32,7 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
         self.detailsLabel.text = displayable?.details
 
         if let url = displayable?.thumbnailURL{
-            self.thumbnail.loadImageFrom(url: url)
+            self.thumbnail.downloadloadImageFrom(url: url)
         } else {
             self.thumbnail.image = UIImage(systemName: "photo")
         }

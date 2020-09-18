@@ -17,6 +17,7 @@ class RedditsPresenterMock : RedditsPresenter {
     var reddits: [Reddit]
     var error: Error?
     var onChanged: Action?
+
     internal init(reddits: [Reddit] = [], error: Error? = nil) {
         self.reddits = reddits
         self.error = error
@@ -27,15 +28,19 @@ class RedditsPresenterMock : RedditsPresenter {
         onChanged?()
     }
 
+    func display(newReddits: [Reddit]) {
+        self.reddits.append(contentsOf: newReddits)
+        onChanged?()
+    }
+
     func display(error: Error) {
         self.error = error
         onChanged?()
     }
 }
 
-struct SomeError: Error {
+struct SomeError: Error {}
 
-}
 class RedditsInteractorTests: XCTestCase {
 
     func testLoadRedditsPresentsElements() throws {

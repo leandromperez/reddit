@@ -13,25 +13,37 @@ import UIKit
 class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
 
     private var elements : [Element]
-    private var onDelete: Handler<[IndexPath]>?
-    private var onPrefetch: Handler<[IndexPath]>?
-    private var onReachedBottom: Action?
-    private var onSelect: Handler<IndexPath>?
-    private var tableView : UITableView
 
+    private let onDelete: Handler<[IndexPath]>?
+    private let onPrefetch: Handler<[IndexPath]>?
+    private let onWillReachBottom: Action?
+    private let onSelect: Handler<IndexPath>?
+    private let tableView : UITableView
+    private let willReachBottomOffset :Int
+
+    /// Creates a table view model
+    /// - Parameters:
+    ///   - elements: elements that will be displayed in the table
+    ///   - tableView: the table
+    ///   - willReachBottomOffset: -10 by default. when reaching `elements.count + willReachBottomOffset` it will notify that it's reaching the end of the table
+    ///   - onDelete: callback for deletion
+    ///   - onPrefetch: callback for prefetching
+    ///   - onWillReachBottom: called when the table is about to reach the bottom, it uses the `willReachBottomOffset` parameter
+    ///   - onSelect: callback for cell selection
     internal init(elements: [Element] = [],
                   tableView: UITableView,
+                  willReachBottomOffset : Int = -10,
                   onDelete: Handler<[IndexPath]>? = nil,
                   onPrefetch: Handler<[IndexPath]>? = nil,
-                  onReachedBottom: Action? = nil,
+                  onWillReachBottom: Action? = nil,
                   onSelect: Handler<IndexPath>? = nil) {
         self.elements = elements
         self.tableView = tableView
         self.onDelete = onDelete
         self.onPrefetch = onPrefetch
-        self.onReachedBottom = onReachedBottom
+        self.onWillReachBottom = onWillReachBottom
         self.onSelect = onSelect
-
+        self.willReachBottomOffset = willReachBottomOffset
         super.init()
 
         self.setupTableView()
@@ -89,8 +101,8 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.elements.count - 1 {
-            self.onReachedBottom?()
+        if indexPath.row == self.elements.count + willReachBottomOffset {
+            self.onWillReachBottom?()
         }
     }
 

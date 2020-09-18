@@ -8,6 +8,7 @@
 
 import Foundation
 import Reddit_api
+import Base
 
 var Current = Environment()
 
@@ -15,11 +16,14 @@ var Current = Environment()
 struct Environment {
 
     var coordinator : MainCoordinator!
+    var imageCache : ImageCache!
     var redditAPI: RedditAPI
 
     internal init(coordinator: MainCoordinator? = MainCoordinator(),
+                  imageCache : ImageCache = ImageCache(),
                   redditAPI: RedditAPI = RedditAPI()) {
         self.coordinator = coordinator
+        self.imageCache = imageCache
         self.redditAPI = redditAPI
     }
 }

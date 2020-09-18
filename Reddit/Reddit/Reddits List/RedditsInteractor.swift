@@ -10,6 +10,7 @@ import Foundation
 import Reddit_api
 import Base
 import Endpoints
+import UIKit
 
 class RedditsInteractor {
 
@@ -17,6 +18,7 @@ class RedditsInteractor {
 
     private let redditAPI: RedditAPI
     private var reddits: [Reddit] = []
+    private let imageCache: ImageCache?
     private let stubbing: StubbingBehavior
 
     //MARK: - lifecycle
@@ -26,11 +28,13 @@ class RedditsInteractor {
     ///   - redditAPI: Used to load reddits
     ///   - stubbing: the behavior used to call the endpoints
     internal init(redditAPI: RedditAPI = Current.redditAPI,
+                  imageCache: ImageCache? = Current.imageCache,
                   stubbing: StubbingBehavior = .now,
                   presenter: RedditsPresenter? = nil) {
         self.redditAPI = redditAPI
         self.stubbing = stubbing
         self.presenter = presenter
+        self.imageCache = imageCache
     }
 
     //MARK: -
@@ -84,7 +88,13 @@ class RedditsInteractor {
     }
 
     private func downloadAndCacheImage(from url: URL) {
-        //TODO
+        if imageCache != nil {
+            Endpoint<UIImage>(imageURL: url).call(dispatchQueue:.global()) {[weak self] (result) in
+                if let image = try? result.get() {
+                    self?.imageCache?[url.absoluteString] = image
+                }
+            }
+        }
     }
 
 }

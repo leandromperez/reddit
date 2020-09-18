@@ -58,14 +58,14 @@ class RedditsViewController: UIViewController, Storyboarded {
             self.interactor.prefetchReddits(at: indexPaths)
         }
 
-        let onReachedBottom: Action = {[unowned self] in
+        let onWillReachBottom: Action = {[unowned self] in
             self.interactor.loadMoreReddits()
         }
 
         self.redditsViewModel = TableViewModel(tableView: tableView,
                                                onDelete: onDelete,
                                                onPrefetch: onPrefetch,
-                                               onReachedBottom:onReachedBottom,
+                                               onWillReachBottom:onWillReachBottom,
                                                onSelect: onSelect)
 
     }
