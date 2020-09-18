@@ -11,5 +11,6 @@ import Reddit_api
 
 protocol RedditsPresenter : AnyObject {
     func display(reddits: [Reddit])
+    func display(newReddits: [Reddit])
     func display(error: Error)
 }

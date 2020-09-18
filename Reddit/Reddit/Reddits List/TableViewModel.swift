@@ -10,20 +10,54 @@ import Foundation
 import Base
 import UIKit
 
-class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource {
+class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
 
-    var elements : [Element]
-    var onDelete: Handler<[IndexPath]>?
+    private var elements : [Element]
+    private var onDelete: Handler<[IndexPath]>?
+    private var onPrefetch: Handler<[IndexPath]>?
+    private var onReachedBottom: Action?
+    private var onSelect: Handler<IndexPath>?
+    private var tableView : UITableView
 
-    internal init(elements: [Element] = []) {
+    internal init(elements: [Element] = [],
+                  tableView: UITableView,
+                  onDelete: Handler<[IndexPath]>? = nil,
+                  onPrefetch: Handler<[IndexPath]>? = nil,
+                  onReachedBottom: Action? = nil,
+                  onSelect: Handler<IndexPath>? = nil) {
         self.elements = elements
+        self.tableView = tableView
+        self.onDelete = onDelete
+        self.onPrefetch = onPrefetch
+        self.onReachedBottom = onReachedBottom
+        self.onSelect = onSelect
+
+        super.init()
+
+        self.setupTableView()
     }
 
-    func setup(tableView: UITableView ) {
+    func setupTableView() {
+        tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
         Cell.registerNib(on: tableView)
+    }
+
+    func append(newElements: [Element]) {
+        let count = self.elements.count
+        self.elements.append(contentsOf: newElements)
+
+        let newIndexes = count..<(count + newElements.count)
+        let newPaths = newIndexes.map {IndexPath.init(row: $0, section: 0)}
+        self.tableView.insertRows(at: newPaths, with: .none)
+    }
+
+    func set(elements: [Element]) {
+        self.elements = elements
+        self.tableView.reloadData()
     }
 
     //MARK: - UITableViewDataSource
@@ -51,16 +85,26 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
             elements.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             onDelete?([indexPath])
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.elements.count - 1 {
+            self.onReachedBottom?()
+        }
+    }
+
+    //MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        onSelect?(indexPath)
     }
 
     //MARK: - UITableViewDataSourcePrefetching
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-
+        onPrefetch?(indexPaths)
     }
 }
+
 
 protocol DisplayableContainer {
     var displayable: Displayable? {get set}
