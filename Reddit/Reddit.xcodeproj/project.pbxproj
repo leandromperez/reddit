@@ -26,7 +26,6 @@
 		9CDA140B250EE889005931B3 /* RedditDetailsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDA140A250EE889005931B3 /* RedditDetailsViewController.storyboard */; };
 		9CDA140F250EEFDC005931B3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */; };
 		9CDA142E250EF375005931B3 /* Enrivonment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA142D250EF375005931B3 /* Enrivonment.swift */; };
-		9CDA1430250EF5C6005931B3 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA142F250EF5C6005931B3 /* TableViewModel.swift */; };
 		9CDA1432250EF91F005931B3 /* RedditsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDA1431250EF91F005931B3 /* RedditsInteractor.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +60,6 @@
 		9CDA140A250EE889005931B3 /* RedditDetailsViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RedditDetailsViewController.storyboard; sourceTree = "<group>"; };
 		9CDA140E250EEFDC005931B3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		9CDA142D250EF375005931B3 /* Enrivonment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrivonment.swift; sourceTree = "<group>"; };
-		9CDA142F250EF5C6005931B3 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		9CDA1431250EF91F005931B3 /* RedditsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditsInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,13 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9C147AB32513957E008CBE56 /* UI */ = {
+		9C147AB32513957E008CBE56 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				9C7235E32513AE3C00823B74 /* Reddit + Displayable.swift */,
 				9C2BC28E2513A76200DC83B4 /* RedditTableViewCell.swift */,
 				9C2BC28F2513A76200DC83B4 /* RedditTableViewCell.xib */,
 			);
-			path = UI;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		9C246612251025B9002555E8 /* Reddit Details */ = {
@@ -161,9 +160,7 @@
 				9CDA1431250EF91F005931B3 /* RedditsInteractor.swift */,
 				9CA4CC8225116D8500DDE3D6 /* RedditsPresenter.swift */,
 				9CDA13CD250E6703005931B3 /* RedditsViewController.swift */,
-				9CDA142F250EF5C6005931B3 /* TableViewModel.swift */,
-				9C7235E32513AE3C00823B74 /* Reddit + Displayable.swift */,
-				9C147AB32513957E008CBE56 /* UI */,
+				9C147AB32513957E008CBE56 /* Cell */,
 			);
 			path = "Reddits List";
 			sourceTree = "<group>";
@@ -289,7 +286,6 @@
 			files = (
 				9C7235E42513AE3C00823B74 /* Reddit + Displayable.swift in Sources */,
 				9CA4CC8325116D8500DDE3D6 /* RedditsPresenter.swift in Sources */,
-				9CDA1430250EF5C6005931B3 /* TableViewModel.swift in Sources */,
 				9CDA13CA250E6703005931B3 /* AppDelegate.swift in Sources */,
 				9CDA140F250EEFDC005931B3 /* MainCoordinator.swift in Sources */,
 				9CDA13CE250E6703005931B3 /* RedditsViewController.swift in Sources */,

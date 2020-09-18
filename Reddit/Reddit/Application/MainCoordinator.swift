@@ -22,8 +22,13 @@ class MainCoordinator : Coordinator {
     }()
 
     private lazy var detailsViewController: RedditDetailsViewController = RedditDetailsViewController.fromStoryboard()
-
-    lazy var splitViewController: UISplitViewController = UISplitViewController()
+    var splitViewController: UISplitViewController = {
+        let split = UISplitViewController()
+        split.preferredDisplayMode = .allVisible
+        return split
+    }()
+    
+//    lazy var splitViewController: SplitViewController = SplitViewController(nibName: nil, bundle: nil)
 
     init(navigationController: UINavigationController = UINavigationController()) {
         self.navigationController = navigationController
@@ -35,8 +40,8 @@ class MainCoordinator : Coordinator {
 
         masterNavigator.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         masterNavigator.navigationItem.leftItemsSupplementBackButton = true
-        splitViewController.delegate = self
 
+        splitViewController.delegate = self
         splitViewController.viewControllers = [masterNavigator, detailsNavigator]
     }
 
@@ -55,17 +60,41 @@ class MainCoordinator : Coordinator {
 }
 
 
+//class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//        self.delegate = self
+//        self.preferredDisplayMode = .allVisible
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        self.delegate = self
+//        self.preferredDisplayMode = .allVisible
+//    }
+//
+//    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
+//        return true
+//    }
+//}
+
+
 extension MainCoordinator : UISplitViewControllerDelegate {
 
     // MARK: - Split view
 
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? RedditDetailsViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
-        }
-        return false
+        return true
+//        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
+//        guard let topAsDetailController = secondaryAsNavController.topViewController as? RedditDetailsViewController else { return false }
+//        if topAsDetailController.detailItem == nil {
+//            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+//            return true
+//        }
+//        return false
     }
 }

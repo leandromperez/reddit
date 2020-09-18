@@ -37,7 +37,7 @@ class RedditsInteractor {
         self.imageCache = imageCache
     }
 
-    //MARK: -
+    //MARK: - public
 
     /// Hits the top reddits endpoint and updates the view cotroller when it gets the result
     func loadReddits() {
@@ -75,7 +75,7 @@ class RedditsInteractor {
     //MARK: - private
 
     private func loadReddits(after lastReddit: Reddit? = nil, onSuccess: @escaping Handler<[Reddit]>) {
-        redditAPI.topReddits(limit: 10, after: lastReddit?.name).call(stub: stubbing) {[weak self] (result) in
+        redditAPI.topReddits(limit: 50, after: lastReddit?.name).call(stub: stubbing) {[weak self] (result) in
             guard let self = self else {return}
 
             switch result {
@@ -91,11 +91,9 @@ class RedditsInteractor {
         if imageCache != nil && imageCache?[url.absoluteString] == nil {
             Endpoint<UIImage>(imageURL: url).call(dispatchQueue:.global()) {[weak self] (result) in
                 if let image = try? result.get() {
-//                    self?.imageCache?[url.absoluteString] = image
+                    self?.imageCache?[url.absoluteString] = image
                 }
             }
         }
     }
-
 }
-

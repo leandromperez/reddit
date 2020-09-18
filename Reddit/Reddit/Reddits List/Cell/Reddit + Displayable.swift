@@ -8,13 +8,14 @@
 
 import Foundation
 import Reddit_api
+import Base
 
 extension Reddit : Displayable {
-    var subtitle: String {
+    public var subtitle: String {
         "Score: \(score.description)"
     }
 
-    var thumbnailURL: URL? {
+    public var thumbnailURL: URL? {
         URL(string: thumbnail)
     }
 
@@ -40,7 +41,7 @@ extension Reddit : Displayable {
         return unknown
     }
 
-    var details: String {
+    public var details: String {
         "Posted by: \(author), \(timeFromNow) from now."
     }
 }

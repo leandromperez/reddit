@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Base
 
 class RedditTableViewCell: UITableViewCell, DisplayableContainer {
 

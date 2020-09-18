@@ -16,7 +16,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections/>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8"/>
+                    <navigationItem key="navigationItem" title="Reddits" id="Zdf-7t-Un8"/>
                     <connections>
                         <outlet property="tableView" destination="r7i-6Z-zg0" id="vW1-pS-5aP"/>
                     </connections>
