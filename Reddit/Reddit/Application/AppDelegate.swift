@@ -14,14 +14,7 @@ import Endpoints
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = Current.coordinator.splitViewController
-        window?.makeKeyAndVisible()
-        Current.coordinator.start()
         return true
     }
 }

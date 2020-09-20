@@ -13,7 +13,11 @@ import Reddit_api
 
 class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController
+    var splitViewController: UISplitViewController!
+
+    var navigationController: UINavigationController {
+        splitViewController.viewControllers.first as! UINavigationController
+    }
 
     private lazy var redditsViewController: RedditsViewController = {
         let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .never)
@@ -23,21 +27,17 @@ class MainCoordinator : Coordinator {
 
     private lazy var detailsViewController: RedditDetailsViewController = RedditDetailsViewController.fromStoryboard()
 
-    lazy var splitViewController: UISplitViewController = UISplitViewController()
-
-    init(navigationController: UINavigationController = UINavigationController()) {
-        self.navigationController = navigationController
-    }
-
     func start() {
-        let masterNavigator = UINavigationController(rootViewController: redditsViewController)
-        let detailsNavigator = UINavigationController(rootViewController: detailsViewController)
 
-        masterNavigator.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        masterNavigator.navigationItem.leftItemsSupplementBackButton = true
+        let masterNavigator = splitViewController.viewControllers.first as! UINavigationController
+        let detailsNavigator = splitViewController.viewControllers.last as! UINavigationController
+        masterNavigator.viewControllers = [redditsViewController]
+        detailsNavigator.viewControllers = [detailsViewController]
+
+        detailsViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        detailsViewController.navigationItem.leftItemsSupplementBackButton = true
+
         splitViewController.delegate = self
-
-        splitViewController.viewControllers = [masterNavigator, detailsNavigator]
     }
 
     func openDetails(of reddit:Reddit) {
@@ -53,7 +53,6 @@ class MainCoordinator : Coordinator {
 
 
 }
-
 
 extension MainCoordinator : UISplitViewControllerDelegate {
 

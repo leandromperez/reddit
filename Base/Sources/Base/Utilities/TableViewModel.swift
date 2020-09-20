@@ -7,10 +7,12 @@
 //
 
 import Foundation
-import Base
 import UIKit
 
-class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
+/// A  TableViewModel that holds a list of `Displayable` `Element` instances. It populates the tableView with instances of `Cell` which must adopt the `DisplayableContainer` protocol.
+///
+/// Instances of this clas will become the tableView delegate, datasource and prefetching data source, providing a default implementation.
+public class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableContainer> : NSObject, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
 
     private var elements : [Element]
 
@@ -30,7 +32,7 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
     ///   - onPrefetch: callback for prefetching
     ///   - onWillReachBottom: called when the table is about to reach the bottom, it uses the `willReachBottomOffset` parameter
     ///   - onSelect: callback for cell selection
-    internal init(elements: [Element] = [],
+    public init(elements: [Element] = [],
                   tableView: UITableView,
                   willReachBottomOffset : Int = -10,
                   onDelete: Handler<[IndexPath]>? = nil,
@@ -49,16 +51,9 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
         self.setupTableView()
     }
 
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.prefetchDataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
-        Cell.registerNib(on: tableView)
-    }
+    //MARK: - public
 
-    func append(newElements: [Element]) {
+    public func append(newElements: [Element]) {
         let count = self.elements.count
         self.elements.append(contentsOf: newElements)
 
@@ -67,32 +62,43 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
         self.tableView.insertRows(at: newPaths, with: .none)
     }
 
-    func set(elements: [Element]) {
+    public func set(elements: [Element]) {
         self.elements = elements
         self.tableView.reloadData()
     }
 
+    //MARK: - private
+
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.prefetchDataSource = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+        Cell.registerNib(on: tableView)
+    }
+
     //MARK: - UITableViewDataSource
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return elements.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : Cell = tableView.cell(at: indexPath)
         cell.displayable = elements[indexPath.row]
         return cell
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             elements.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -100,31 +106,19 @@ class TableViewModel<Element: Displayable, Cell: UITableViewCell & DisplayableCo
         }
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == self.elements.count + willReachBottomOffset {
             self.onWillReachBottom?()
         }
     }
 
     //MARK: - UITableViewDelegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         onSelect?(indexPath)
     }
 
     //MARK: - UITableViewDataSourcePrefetching
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         onPrefetch?(indexPaths)
     }
-}
-
-
-protocol DisplayableContainer {
-    var displayable: Displayable? {get set}
-}
-
-protocol Displayable {
-    var subtitle : String {get}
-    var thumbnailURL : URL? {get}
-    var title: String {get}
-    var details : String {get}
 }

@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Detail-->
+        <!--Reddit Details-->
         <scene sceneID="hUS-zU-6Kv">
             <objects>
-                <viewController title="Detail" id="tPA-Bn-j5l" customClass="RedditDetailsViewController" customModule="Reddit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RedditDetails" title="Detail" id="tPA-Bn-j5l" userLabel="Reddit Details" customClass="RedditDetailsViewController" customModule="Reddit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nTU-po-Bfl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +31,7 @@
                         <viewLayoutGuide key="safeArea" id="wC0-Ki-EZ9"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="NEO-5H-Vej"/>
+                    <navigationItem key="navigationItem" title="Reddit Details" id="NEO-5H-Vej"/>
                     <connections>
                         <outlet property="detailDescriptionLabel" destination="gM8-NH-ftv" id="2iJ-dq-v7C"/>
                     </connections>

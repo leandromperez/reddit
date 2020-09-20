@@ -21,6 +21,7 @@ public extension UIImageView {
                                 placeholder: UIImage? = nil,
                                 onCompletion: Handler<Result<UIImage, Error>>? = nil) {
 
+        //TODO: find what's wrong
 //        if let cached = cache?[url.absoluteString] {
 //            onCompletion?(.success(cached))
 //            print("cached!!! \(url)")
@@ -33,7 +34,6 @@ public extension UIImageView {
             DispatchQueue.main.async {
                 let downloaded = try? result.get()
                 self?.image = downloaded
-                print("\(url.absoluteString) : \(downloaded)" )
                 cache?[url.absoluteString] = downloaded
                 onCompletion?(result)
             }
