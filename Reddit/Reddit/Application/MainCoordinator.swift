@@ -16,7 +16,7 @@ class MainCoordinator : Coordinator {
     var splitViewController: UISplitViewController!
 
     var navigationController: UINavigationController {
-        splitViewController.viewControllers.first as! UINavigationController
+        splitViewController.viewControllers.last as! UINavigationController
     }
 
     private lazy var redditsViewController: RedditsViewController = {
@@ -25,32 +25,42 @@ class MainCoordinator : Coordinator {
         return instance
     }()
 
-    private lazy var detailsViewController: RedditDetailsViewController = RedditDetailsViewController.fromStoryboard()
+    @discardableResult
+    private func pushDetailsViewController() -> RedditDetailsViewController {
+        let newDetails = RedditDetailsViewController.fromStoryboard()
+        newDetails.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        newDetails.navigationItem.leftItemsSupplementBackButton = true
+        self.navigationController.pushViewController(newDetails, animated: true)
+        return newDetails
+    }
 
     func start() {
 
         let masterNavigator = splitViewController.viewControllers.first as! UINavigationController
-        let detailsNavigator = splitViewController.viewControllers.last as! UINavigationController
         masterNavigator.viewControllers = [redditsViewController]
-        detailsNavigator.viewControllers = [detailsViewController]
-
-        detailsViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        detailsViewController.navigationItem.leftItemsSupplementBackButton = true
-
+        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.delegate = self
+
+        //Push details vc, so it's opened with no reddit, and it causes master to toggle (on ipad, portrait mod)
+        pushDetailsViewController()
+
+        splitViewController.toggleMaster()
     }
 
     func openDetails(of reddit:Reddit) {
-        let details = detailsViewController
-        details.detailItem = NSDate()
-        details.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        details.navigationItem.leftItemsSupplementBackButton = true
+        let details = detailsViewController ?? pushDetailsViewController()
+        details.reddit = reddit
     }
 
     private var detailsNavigator: UINavigationController {
         splitViewController.viewControllers.last as! UINavigationController
     }
 
+
+    private var detailsViewController: RedditDetailsViewController? {
+        guard let secondaryAsNavController = self.splitViewController.viewControllers.last as? UINavigationController else { return nil }
+        return secondaryAsNavController.topViewController as? RedditDetailsViewController
+    }
 
 }
 
@@ -59,10 +69,7 @@ extension MainCoordinator : UISplitViewControllerDelegate {
     // MARK: - Split view
 
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? RedditDetailsViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+        if detailsViewController?.reddit == nil {
             return true
         }
         return false

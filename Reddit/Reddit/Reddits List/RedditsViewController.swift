@@ -34,6 +34,12 @@ class RedditsViewController: UIViewController, Storyboarded {
         interactor.loadReddits()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let selected = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selected, animated: true )
+        }
+    }
     //MARK: - actions
 
     private func openReddit(at indexPath: IndexPath) {
