@@ -16,7 +16,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     private var interactor : RedditsInteractor!
     private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
 
-    @IBOutlet var tableView : UITableView!
+    @IBOutlet var redditsTable : UITableView!
 
     //MARK: - lifecycle
 
@@ -33,7 +33,6 @@ class RedditsViewController: UIViewController, Storyboarded {
         loadReddits()
     }
 
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         clearTableSelection()
@@ -41,8 +40,8 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     //MARK: - private
     private func clearTableSelection() {
-        if let selected = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selected, animated: true )
+        if let selected = redditsTable.indexPathForSelectedRow {
+            redditsTable.deselectRow(at: selected, animated: true )
         }
     }
 
@@ -65,7 +64,7 @@ class RedditsViewController: UIViewController, Storyboarded {
             self.loadMoreReddits()
         }
 
-        self.redditsViewModel = TableViewModel(tableView: tableView,
+        self.redditsViewModel = TableViewModel(tableView: redditsTable,
                                                onDelete: onDelete,
                                                onPrefetch: onPrefetch,
                                                onWillReachBottom:onWillReachBottom,

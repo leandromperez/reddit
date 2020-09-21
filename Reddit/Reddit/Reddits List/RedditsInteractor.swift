@@ -38,7 +38,16 @@ class RedditsInteractor {
     func loadReddits(after lastReddit:Reddit? = nil, onComplete: @escaping Handler<Result<[Reddit], Error>>) {
         redditAPI.topReddits(limit: 50, after: lastReddit?.name)
             .map(\.children)
-            .call(stub: stubbing, onComplete: onComplete )
+            .call(stub: stubbing, onComplete: { result in
+                if let reddits = try? result.get() {
+                    if lastReddit == nil {
+                        self.reddits = reddits
+                    } else {
+                        self.reddits.append(contentsOf: reddits)
+                    }
+                }
+                onComplete(result)
+            })
     }
 
     func prefetchReddits(at indexPaths: [IndexPath]) {
