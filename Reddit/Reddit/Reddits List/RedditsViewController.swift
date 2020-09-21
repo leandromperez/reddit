@@ -15,6 +15,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     private weak var coordinator : MainCoordinator!
     private var interactor : RedditsInteractor!
     private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
+    private lazy var refreshControl = UIRefreshControl()
 
     @IBOutlet var redditsTable : UITableView!
 
@@ -30,7 +31,9 @@ class RedditsViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTable()
-        loadReddits()
+        configurePullToRefresh()
+
+        loadInitialReddits()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -39,6 +42,9 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     //MARK: - private
+    private func addDismissAllButton() {
+        navigationItem.rightBarButtonItem = .init(title: "Dismiss All", style: .plain, target: self, action: #selector(removeAllReddits))
+    }
 
     private func clearTableSelection() {
         if let selected = redditsTable.indexPathForSelectedRow {
@@ -75,8 +81,16 @@ class RedditsViewController: UIViewController, Storyboarded {
                                                onSelect: onSelect)
     }
 
+    private func configurePullToRefresh() {
+        refreshControl.addTarget(self, action: #selector(reload), for: .valueChanged)
+        redditsTable.addSubview(refreshControl)
+    }
+
     private func display(reddits: [Reddit]) {
         redditsViewModel.set(elements:  reddits)
+        if !reddits.isEmpty {
+            self.addDismissAllButton()
+        }
     }
 
     private func display(newReddits: [Reddit]) {
@@ -87,18 +101,27 @@ class RedditsViewController: UIViewController, Storyboarded {
         presentError(message: error.localizedDescription)
     }
 
-    private func loadReddits() {
+    private func loadInitialReddits() {
+        refreshControl.beginRefreshing()
+        loadReddits(showIndicator: false) {[weak self] in
+            self?.refreshControl.endRefreshing()
+        }
+    }
 
-        let activityIndicator = self.view.addActivityIndicator()
+    private func loadReddits(showIndicator: Bool = true, onFinished: Action? = nil ) {
+
+        let activityIndicator : UIView? = showIndicator ? self.view.addActivityIndicator() : nil
         interactor.loadReadReddits()
         interactor.loadReddits { [weak self] result in
-            activityIndicator.removeFromSuperview()
+            activityIndicator?.removeFromSuperview()
 
             guard let self = self else {return}
             switch result {
             case .failure(let error) :
+                onFinished?()
                 self.display(error: error)
             case .success(let reddits) :
+                onFinished?()
                 self.display(reddits: reddits)
             }
         }
@@ -136,7 +159,19 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private func removeReddits(at indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            self.interactor.removeReddit(at: indexPath)
+            interactor.removeReddit(at: indexPath)
+        }
+    }
+
+    @objc private func removeAllReddits() {
+        interactor.removeAllReddits()
+        display(reddits: [])
+        navigationItem.rightBarButtonItem = nil
+    }
+
+    @objc private func reload() {
+        loadReddits(showIndicator: false) { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
 }
