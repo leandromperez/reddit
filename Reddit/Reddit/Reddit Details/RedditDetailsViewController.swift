@@ -22,6 +22,8 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
         }
     }
 
+    //MARK: - lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateView()
@@ -33,6 +35,23 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
             self.splitViewController?.toggleMaster()
         }
     }
+
+
+    //MARK: - actions
+
+    @IBAction func saveImage() {
+        guard let image = picture.image else { return }
+        ImageSaver().save(image: image) { result in
+            switch result {
+            case .failure:
+                self.presentError(message: "Unable to save the image")
+            case .success:
+                self.presentAlert(title: "Success", message: "Image saved!")
+            }
+        }
+    }
+    
+    //MARK: - private
 
     private func updateView() {
         if let reddit = reddit, self.isViewLoaded {
