@@ -11,26 +11,44 @@ import Base
 
 class RedditDetailsViewController: UIViewController, Storyboarded {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet var detailsLabel: UILabel!
+    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var picture: UIImageView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        configureView()
-    }
-
-    var detailItem: NSDate? {
+    var reddit: Displayable? {
         didSet {
-            // Update the view.
-            configureView()
+            updateView()
         }
     }
 
-    private func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = detailItem {
-            detailDescriptionLabel.text = detail.description
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if reddit == nil {
+            self.splitViewController?.toggleMaster()
+        }
+    }
+
+    private func updateView() {
+        if let reddit = reddit, self.isViewLoaded {
+            titleLabel.text = reddit.title
+            subtitleLabel.text = reddit.subtitle
+            detailsLabel.text = reddit.details
+
+            reddit.loadThumbnail(on: picture)
         }
     }
 }
 
+
+extension UISplitViewController {
+    func toggleMaster() {
+        let barButtonItem = self.displayModeButtonItem
+        UIApplication.shared.sendAction(barButtonItem.action!, to: barButtonItem.target, from: nil, for: nil)
+    }
+}

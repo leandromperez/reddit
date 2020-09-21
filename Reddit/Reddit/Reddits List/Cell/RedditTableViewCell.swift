@@ -18,7 +18,7 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
 
     var displayable: Displayable? {
         didSet {
-            self.update()
+            self.updateView()
         }
     }
 
@@ -27,15 +27,21 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
         self.displayable = nil
     }
 
-    private func update() {
+    private func updateView() {
         self.titleLabel.text = displayable?.title
         self.subtitleLabel.text = displayable?.subtitle
         self.detailsLabel.text = displayable?.details
 
-        if let url = displayable?.thumbnailURL {
-            self.thumbnail.downloadloadImageFrom(url: url, cache: Current.imageCache)
+        displayable?.loadThumbnail(on: thumbnail)
+    }
+}
+
+extension Displayable {
+    func loadThumbnail(on imageView : UIImageView) {
+        if let url = self.thumbnailURL {
+            imageView.downloadloadImageFrom(url: url, cache: Current.imageCache)
         } else {
-            self.thumbnail.image = UIImage(systemName: "photo")
+            imageView.image = UIImage(systemName: "photo")
         }
     }
 }
