@@ -1,9 +1,4 @@
-{
-	"kind": "Listing",
-	"data": {
-		"modhash": "",
-		"dist": 10,
-		"children": [
+[
 			{
 				"kind": "t3",
 				"data": {
@@ -14146,8 +14141,4 @@
 					"is_video": true
 				}
 			}
-		],
-		"after": "t3_irl8sg",
-		"before": null
-	}
-}
+		]
