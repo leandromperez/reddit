@@ -44,11 +44,3 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
         }
     }
 }
-
-
-extension UISplitViewController {
-    func toggleMaster() {
-        let barButtonItem = self.displayModeButtonItem
-        UIApplication.shared.sendAction(barButtonItem.action!, to: barButtonItem.target, from: nil, for: nil)
-    }
-}

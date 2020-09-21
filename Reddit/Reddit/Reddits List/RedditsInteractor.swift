@@ -14,8 +14,6 @@ import UIKit
 
 class RedditsInteractor {
 
-    weak var presenter: RedditsPresenter!
-
     private let redditAPI: RedditAPI
     private var reddits: [Reddit] = []
     private let imageCache: ImageCache?
@@ -29,23 +27,18 @@ class RedditsInteractor {
     ///   - stubbing: the behavior used to call the endpoints
     internal init(redditAPI: RedditAPI = Current.redditAPI,
                   imageCache: ImageCache? = Current.imageCache,
-                  stubbing: StubbingBehavior = .now,
-                  presenter: RedditsPresenter? = nil) {
+                  stubbing: StubbingBehavior = .now) {
         self.redditAPI = redditAPI
         self.stubbing = stubbing
-        self.presenter = presenter
         self.imageCache = imageCache
     }
 
     //MARK: - public
 
-    /// Hits the top reddits endpoint and updates the view cotroller when it gets the result
-    func loadReddits() {
-        loadReddits() {[weak self] (newReddits) in
-            guard let self = self else {return}
-            self.reddits = newReddits
-            self.presenter.display(reddits: newReddits)
-        }
+    func loadReddits(after lastReddit:Reddit? = nil, onComplete: @escaping Handler<Result<[Reddit], Error>>) {
+        redditAPI.topReddits(limit: 50, after: lastReddit?.name)
+            .map(\.children)
+            .call(stub: stubbing, onComplete: onComplete )
     }
 
     func prefetchReddits(at indexPaths: [IndexPath]) {
@@ -56,12 +49,8 @@ class RedditsInteractor {
         }
     }
 
-    func loadMoreReddits() {
-        loadReddits(after: reddits.last) {[weak self] (newReddits) in
-            guard let self = self else {return}
-            self.reddits.append(contentsOf: newReddits)
-            self.presenter.display(newReddits: newReddits)
-        }
+    func loadMoreReddits( onComplete: @escaping Handler<Result<[Reddit], Error>>) {
+        self.loadReddits(after: reddits.last, onComplete: onComplete)
     }
 
     func reddit(at indexPath: IndexPath) -> Reddit? {
@@ -73,19 +62,6 @@ class RedditsInteractor {
     }
 
     //MARK: - private
-
-    private func loadReddits(after lastReddit: Reddit? = nil, onSuccess: @escaping Handler<[Reddit]>) {
-        redditAPI.topReddits(limit: 50, after: lastReddit?.name).call(stub: stubbing) {[weak self] (result) in
-            guard let self = self else {return}
-
-            switch result {
-            case .failure(let error) :
-                self.presenter.display(error: error)
-            case .success(let listing):
-                onSuccess(listing.children)
-            }
-        }
-    }
 
     private func downloadAndCacheImage(from url: URL) {
         if imageCache != nil && imageCache?[url.absoluteString] == nil {

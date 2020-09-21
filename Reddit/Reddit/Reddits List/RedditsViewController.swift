@@ -24,30 +24,27 @@ class RedditsViewController: UIViewController, Storyboarded {
         let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor
-        interactor.presenter = instance
         return instance
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTable()
-        interactor.loadReddits()
+        loadReddits()
     }
+
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        clearTableSelection()
+    }
+
+    //MARK: - private
+    private func clearTableSelection() {
         if let selected = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selected, animated: true )
         }
     }
-    //MARK: - actions
-
-    private func openReddit(at indexPath: IndexPath) {
-        guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
-        coordinator.openDetails(of: reddit)
-    }
-
-    //MARK: - actions
 
     private func configureTable() {
         let onDelete : Handler<[IndexPath]> = { [unowned self] indexPaths in
@@ -65,7 +62,7 @@ class RedditsViewController: UIViewController, Storyboarded {
         }
 
         let onWillReachBottom: Action = {[unowned self] in
-            self.interactor.loadMoreReddits()
+            self.loadMoreReddits()
         }
 
         self.redditsViewModel = TableViewModel(tableView: tableView,
@@ -73,25 +70,50 @@ class RedditsViewController: UIViewController, Storyboarded {
                                                onPrefetch: onPrefetch,
                                                onWillReachBottom:onWillReachBottom,
                                                onSelect: onSelect)
-
     }
-}
 
-extension RedditsViewController : RedditsPresenter {
-
-    func display(reddits: [Reddit]) {
+    private func display(reddits: [Reddit]) {
         self.redditsViewModel.set(elements:  reddits)
     }
 
-    func display(newReddits: [Reddit]) {
+    private func display(newReddits: [Reddit]) {
         self.redditsViewModel.append(newElements: newReddits)
     }
 
-    func display(error: Error) {
+    private func display(error: Error) {
         self.presentError(message: error.localizedDescription)
     }
+
+
+    private func loadReddits() {
+        let activityIndicator = self.view.addActivityIndicator()
+        interactor.loadReddits { [weak self] result in
+            activityIndicator.removeFromSuperview()
+
+            guard let self = self else {return}
+            switch result {
+            case .failure(let error) :
+                self.display(error: error)
+            case .success(let reddits) :
+                self.display(reddits: reddits)
+            }
+        }
+    }
+
+    private func loadMoreReddits() {
+        self.interactor.loadMoreReddits { [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .failure(let error) :
+                self.display(error: error)
+            case .success(let reddits) :
+                self.display(newReddits: reddits)
+            }
+        }
+    }
+
+    private func openReddit(at indexPath: IndexPath) {
+        guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
+        coordinator.openDetails(of: reddit)
+    }
 }
-
-
-
-
