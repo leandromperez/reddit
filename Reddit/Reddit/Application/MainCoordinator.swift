@@ -15,24 +15,19 @@ class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
     var splitViewController: UISplitViewController!
 
-    var navigationController: UINavigationController {
-        splitViewController.viewControllers.last as! UINavigationController
-    }
-
     private lazy var redditsViewController: RedditsViewController = {
         let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .never)
         let instance = RedditsViewController.fromStoryboard(coordinator: self, interactor: interactor)
         return instance
     }()
 
-    @discardableResult
-    private func pushDetailsViewController() -> RedditDetailsViewController {
-        let newDetails = RedditDetailsViewController.fromStoryboard()
-        newDetails.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        newDetails.navigationItem.leftItemsSupplementBackButton = true
-        self.navigationController.pushViewController(newDetails, animated: true)
-        return newDetails
+    //MARK: - lifecycle
+
+    var navigationController: UINavigationController {
+        splitViewController.viewControllers.last as! UINavigationController
     }
+
+    //MARK: - actions
 
     func start() {
 
@@ -52,10 +47,20 @@ class MainCoordinator : Coordinator {
         details.reddit = reddit
     }
 
+    //MARK: - private
+
+    @discardableResult
+    private func pushDetailsViewController() -> RedditDetailsViewController {
+        let newDetails = RedditDetailsViewController.fromStoryboard()
+        newDetails.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        newDetails.navigationItem.leftItemsSupplementBackButton = true
+        self.navigationController.pushViewController(newDetails, animated: true)
+        return newDetails
+    }
+
     private var detailsNavigator: UINavigationController {
         splitViewController.viewControllers.last as! UINavigationController
     }
-
 
     private var detailsViewController: RedditDetailsViewController? {
         guard let secondaryAsNavController = self.splitViewController.viewControllers.last as? UINavigationController else { return nil }

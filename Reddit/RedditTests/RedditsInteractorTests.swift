@@ -12,68 +12,53 @@ import Base
 
 @testable import Reddit
 
-class RedditsPresenterMock : RedditsPresenter {
-
-    var reddits: [Reddit]
-    var error: Error?
-    var onChanged: Action?
-
-    internal init(reddits: [Reddit] = [], error: Error? = nil) {
-        self.reddits = reddits
-        self.error = error
-    }
-
-    func display(reddits: [Reddit]) {
-        self.reddits = reddits
-        onChanged?()
-    }
-
-    func display(newReddits: [Reddit]) {
-        self.reddits.append(contentsOf: newReddits)
-        onChanged?()
-    }
-
-    func display(error: Error) {
-        self.error = error
-        onChanged?()
-    }
-}
-
 struct SomeError: Error {}
 
 class RedditsInteractorTests: XCTestCase {
 
-    func testLoadRedditsPresentsElements() throws {
-        let displayCalled = expectation(description: "changed")
-        let presenter = RedditsPresenterMock()
-        presenter.onChanged = {
-            displayCalled.fulfill()
+    func testLoadRedditsChangesReddits() throws {
+        let redditsAreLoaded = expectation(description: "changed")
+
+        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
+
+        XCTAssertNil(interactor.reddit(at: IndexPath(row: 0, section: 0)))
+        interactor.loadReddits(limit:4) { result in
+            if interactor.reddit(at: IndexPath(row: 3, section: 0)) != nil {
+                redditsAreLoaded.fulfill()
+            }
         }
-        XCTAssertEqual(presenter.reddits.count, 0)
 
-        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now, presenter: presenter)
-
-        interactor.loadReddits()
-
-        waitForExpectations(timeout: 0.01, handler:nil)
-        XCTAssertEqual(presenter.reddits.count, 10)
+        waitForExpectations(timeout: 0.1, handler:nil)
     }
 
 
-    func testLoadRedditsPresentsError() throws {
-        let displayCalled = expectation(description: "changed")
-        let presenter = RedditsPresenterMock()
-        presenter.onChanged = {
-            displayCalled.fulfill()
+    func testLoadMoreRedditsAddsNewReddits() throws {
+        let tenRedditsLoaded = expectation(description: "changed")
+
+        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
+        let interactorAll = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
+
+        var allReddits = [Reddit]()
+        interactorAll.loadReddits { (result) in
+            allReddits = try! result.get()
+
+            XCTAssertNil(interactor.reddit(at: IndexPath(row: 0, section: 0)))
+            interactor.loadReddits(limit: 1) { _ in
+
+                XCTAssertNotNil(interactor.reddit(at: IndexPath(row: 0, section: 0)))
+                XCTAssertNil(interactor.reddit(at: IndexPath(row: 1, section: 0)))
+
+                let rest : [Reddit] = Array(allReddits.dropFirst())
+                interactor.stubbing = .nowWithElement(rest)
+                interactor.loadMoreReddits { (result) in
+                    if interactor.reddit(at: IndexPath(row: 2, section: 0)) != nil {
+                        tenRedditsLoaded.fulfill()
+                    }
+                }
+            }
         }
 
-        XCTAssertEqual(presenter.reddits.count, 0)
-
-        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .error(SomeError()), presenter: presenter)
-
-        interactor.loadReddits()
-        
-        waitForExpectations(timeout: 0.01, handler:nil)
-        XCTAssertNotNil(presenter.error)
+        waitForExpectations(timeout: 0.1, handler:nil)
     }
+
 }
