@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 /// A  TableViewModel that holds a list of `Displayable` `Element` instances. It populates the tableView with instances of `Cell` which must adopt the `DisplayableContainer` protocol.
 ///
 /// Instances of this clas will become the tableView delegate, datasource and prefetching data source, providing a default implementation.
@@ -20,6 +21,7 @@ public class TableViewModel<Element: Displayable, Cell: UITableViewCell & Displa
     private let onPrefetch: Handler<[IndexPath]>?
     private let onWillReachBottom: Action?
     private let onSelect: Handler<IndexPath>?
+    private let isChecked: (Element) -> Bool
     private let tableView : UITableView
     private let willReachBottomOffset :Int
 
@@ -35,6 +37,7 @@ public class TableViewModel<Element: Displayable, Cell: UITableViewCell & Displa
     public init(elements: [Element] = [],
                   tableView: UITableView,
                   willReachBottomOffset : Int = -10,
+                  isChecked: @escaping (Element) -> Bool,
                   onDelete: Handler<[IndexPath]>? = nil,
                   onPrefetch: Handler<[IndexPath]>? = nil,
                   onWillReachBottom: Action? = nil,
@@ -45,6 +48,7 @@ public class TableViewModel<Element: Displayable, Cell: UITableViewCell & Displa
         self.onPrefetch = onPrefetch
         self.onWillReachBottom = onWillReachBottom
         self.onSelect = onSelect
+        self.isChecked = isChecked
         self.willReachBottomOffset = willReachBottomOffset
         super.init()
 
@@ -89,8 +93,9 @@ public class TableViewModel<Element: Displayable, Cell: UITableViewCell & Displa
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell : Cell = tableView.cell(at: indexPath)
-        cell.displayable = elements[indexPath.row]
+        let cell : Cell = tableView.cell(at: indexPath)
+        let element = elements[indexPath.row]
+        cell.set(displayable: element, checked: isChecked(element))
         return cell
     }
     

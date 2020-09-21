@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol DisplayableContainer {
-    var displayable: Displayable? {get set}
+    func set(displayable: Displayable?, checked: Bool)
 }
 
 public protocol Displayable {

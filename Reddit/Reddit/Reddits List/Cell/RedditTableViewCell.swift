@@ -15,24 +15,29 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
     @IBOutlet var subtitleLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var thumbnail: UIImageView!
+    @IBOutlet var checked: UIImageView!
+    @IBOutlet var unchecked: UIImageView!
 
-    var displayable: Displayable? {
-        didSet {
-            self.updateView()
-        }
-    }
+    private var displayable: Displayable?
 
     override func prepareForReuse() {
         super.prepareForReuse()
         self.displayable = nil
     }
 
-    private func updateView() {
+    private func updateDisplayable(checked: Bool) {
         self.titleLabel.text = displayable?.title
         self.subtitleLabel.text = displayable?.subtitle
         self.detailsLabel.text = displayable?.details
 
         displayable?.loadThumbnail(on: thumbnail)
+        self.checked.isHidden = !checked
+        self.unchecked.isHidden = checked
+    }
+
+    func set( displayable: Displayable?, checked:Bool) {
+        self.displayable = displayable
+        self.updateDisplayable(checked: checked)
     }
 }
 

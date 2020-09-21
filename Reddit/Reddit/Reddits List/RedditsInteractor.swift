@@ -16,6 +16,7 @@ class RedditsInteractor {
 
     private let redditAPI: RedditAPI
     private var reddits: [Reddit] = []
+    private var readReddits: Set<Reddit> = []
     private let imageCache: ImageCache?
     var stubbing: StubbingBehavior
 
@@ -68,6 +69,14 @@ class RedditsInteractor {
 
     func removeReddit(at index:IndexPath) {
         reddits.remove(at: index.row)
+    }
+
+    func markRead(_ reddit: Reddit) {
+        self.readReddits.insert(reddit)
+    }
+
+    func isRead(_ reddit: Reddit) -> Bool {
+        readReddits.contains(reddit)
     }
 
     //MARK: - private
