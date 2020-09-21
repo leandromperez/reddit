@@ -83,6 +83,10 @@ class RedditsInteractor {
         reddits.remove(at: index.row)
     }
 
+    func removeAllReddits() {
+        reddits.removeAll()
+    }
+
     func markRead(_ reddit: Reddit, onComplete: Handler<Result<Void, Error>> ) {
         self.readReddits.append(reddit)
         do {
