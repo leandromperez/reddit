@@ -28,6 +28,22 @@
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="pMT-K5-jGb"/>
                         </constraints>
                     </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hGu-Xg-sZK" userLabel="Checked">
+                        <rect key="frame" x="272" y="44" width="24" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="T4K-8O-z2W"/>
+                            <constraint firstAttribute="width" constant="24" id="feZ-r0-0RH"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Obd-Rk-FpS" userLabel="Unchecked">
+                        <rect key="frame" x="272" y="44" width="24" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="C7O-XU-jLe"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="Kmi-cT-V9L"/>
+                            <constraint firstAttribute="width" constant="24" id="Xbe-Q9-2c3"/>
+                            <constraint firstAttribute="height" constant="24" id="cKo-Hc-nkK"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jA-QW-ndB" userLabel="Subtitle">
                         <rect key="frame" x="8" y="421.5" width="304" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -45,26 +61,36 @@
                     <constraint firstItem="oOh-o1-dCF" firstAttribute="top" secondItem="AZ5-Bf-g3M" secondAttribute="bottom" constant="8" id="BJZ-jN-iK7"/>
                     <constraint firstItem="oOh-o1-dCF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="COA-Mz-XPp"/>
                     <constraint firstAttribute="trailing" secondItem="L3r-NA-Fo8" secondAttribute="trailing" constant="8" id="EkJ-jO-k23"/>
+                    <constraint firstItem="hGu-Xg-sZK" firstAttribute="trailing" secondItem="AZ5-Bf-g3M" secondAttribute="trailing" id="G2A-8h-932"/>
                     <constraint firstItem="L3r-NA-Fo8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="HTp-9m-cHE"/>
                     <constraint firstAttribute="bottom" secondItem="7jA-QW-ndB" secondAttribute="bottom" constant="8" id="HkM-Eb-Yz1"/>
+                    <constraint firstItem="Obd-Rk-FpS" firstAttribute="top" secondItem="AZ5-Bf-g3M" secondAttribute="top" id="UMs-kW-nAZ"/>
                     <constraint firstItem="L3r-NA-Fo8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="dKX-Fv-NmK"/>
                     <constraint firstAttribute="trailing" secondItem="7jA-QW-ndB" secondAttribute="trailing" constant="8" id="e9t-PP-zr4"/>
                     <constraint firstItem="AZ5-Bf-g3M" firstAttribute="top" secondItem="L3r-NA-Fo8" secondAttribute="bottom" constant="8" id="hre-eN-K7Z"/>
                     <constraint firstItem="7jA-QW-ndB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="iQC-Pr-LFe"/>
                     <constraint firstAttribute="trailing" secondItem="oOh-o1-dCF" secondAttribute="trailing" constant="8" id="iso-Ug-2bl"/>
                     <constraint firstItem="AZ5-Bf-g3M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="nYD-3p-8o0"/>
+                    <constraint firstItem="Obd-Rk-FpS" firstAttribute="trailing" secondItem="AZ5-Bf-g3M" secondAttribute="trailing" id="owW-21-ydi"/>
+                    <constraint firstItem="hGu-Xg-sZK" firstAttribute="top" secondItem="AZ5-Bf-g3M" secondAttribute="top" id="qeN-yO-o9w"/>
                     <constraint firstItem="7jA-QW-ndB" firstAttribute="top" secondItem="oOh-o1-dCF" secondAttribute="bottom" constant="8" id="rW2-y5-1mf"/>
                     <constraint firstAttribute="trailingMargin" secondItem="AZ5-Bf-g3M" secondAttribute="trailing" constant="8" id="uqi-WO-DtO"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="checked" destination="hGu-Xg-sZK" id="jDl-6h-atX"/>
                 <outlet property="detailsLabel" destination="oOh-o1-dCF" id="1pY-cB-2Ld"/>
                 <outlet property="subtitleLabel" destination="7jA-QW-ndB" id="PaC-ob-J0V"/>
                 <outlet property="thumbnail" destination="AZ5-Bf-g3M" id="iVD-ug-xRQ"/>
                 <outlet property="titleLabel" destination="L3r-NA-Fo8" id="cfZ-3q-5MS"/>
+                <outlet property="unchecked" destination="Obd-Rk-FpS" id="Sv5-zz-kfe"/>
             </connections>
             <point key="canvasLocation" x="140.57971014492756" y="254.46428571428569"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="circle" catalog="system" width="128" height="121"/>
+    </resources>
 </document>

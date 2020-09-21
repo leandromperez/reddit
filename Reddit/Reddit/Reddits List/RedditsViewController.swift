@@ -39,6 +39,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     //MARK: - private
+
     private func clearTableSelection() {
         if let selected = redditsTable.indexPathForSelectedRow {
             redditsTable.deselectRow(at: selected, animated: true )
@@ -47,9 +48,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private func configureTable() {
         let onDelete : Handler<[IndexPath]> = { [unowned self] indexPaths in
-            for indexPath in indexPaths {
-                self.interactor.removeReddit(at: indexPath)
-            }
+            self.removeReddits(at: indexPaths)
         }
 
         let onSelect: Handler<IndexPath> = {[unowned self] indexPath in
@@ -64,7 +63,12 @@ class RedditsViewController: UIViewController, Storyboarded {
             self.loadMoreReddits()
         }
 
+        let isChecked : (Reddit) -> Bool = { [unowned self] reddit in
+            self.interactor.isRead(reddit)
+        }
+
         self.redditsViewModel = TableViewModel(tableView: redditsTable,
+                                               isChecked: isChecked,
                                                onDelete: onDelete,
                                                onPrefetch: onPrefetch,
                                                onWillReachBottom:onWillReachBottom,
@@ -82,7 +86,6 @@ class RedditsViewController: UIViewController, Storyboarded {
     private func display(error: Error) {
         self.presentError(message: error.localizedDescription)
     }
-
 
     private func loadReddits() {
         let activityIndicator = self.view.addActivityIndicator()
@@ -113,6 +116,14 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     private func openReddit(at indexPath: IndexPath) {
         guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
+        interactor.markRead(reddit)
         coordinator.openDetails(of: reddit)
+        self.redditsTable.reloadRows(at: [indexPath], with: .none)
+    }
+
+    private func removeReddits(at indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            self.interactor.removeReddit(at: indexPath)
+        }
     }
 }

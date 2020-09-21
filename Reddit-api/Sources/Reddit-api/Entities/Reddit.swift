@@ -10,7 +10,7 @@ import Foundation
 public struct Reddit : Codable {
     private let data : Data
 
-    private struct Data : Codable {
+    private struct Data : Codable, Hashable, Equatable {
         let author: String
         let created: TimeInterval?
         let name: String
@@ -65,3 +65,11 @@ public struct Reddit : Codable {
         data.score ?? 0
     }
 }
+
+extension Reddit : Equatable {
+    public static func == (lhs: Reddit, rhs: Reddit) -> Bool {
+        return lhs.name == rhs.name
+    }
+}
+
+extension Reddit : Hashable {}
