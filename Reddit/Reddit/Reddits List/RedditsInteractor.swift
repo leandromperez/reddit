@@ -17,7 +17,7 @@ class RedditsInteractor {
     private let redditAPI: RedditAPI
     private var reddits: [Reddit] = []
     private let imageCache: ImageCache?
-    private let stubbing: StubbingBehavior
+    var stubbing: StubbingBehavior
 
     //MARK: - lifecycle
 
@@ -35,8 +35,8 @@ class RedditsInteractor {
 
     //MARK: - public
 
-    func loadReddits(after lastReddit:Reddit? = nil, onComplete: @escaping Handler<Result<[Reddit], Error>>) {
-        redditAPI.topReddits(limit: 50, after: lastReddit?.name)
+    func loadReddits(limit:Int = 50, after lastReddit:Reddit? = nil, onComplete: @escaping Handler<Result<[Reddit], Error>>) {
+        redditAPI.topReddits(limit: limit, after: lastReddit?.name)
             .map(\.children)
             .call(stub: stubbing, onComplete: { result in
                 if let reddits = try? result.get() {
