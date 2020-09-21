@@ -10,7 +10,7 @@ import Foundation
 public struct Reddit : Codable {
     private let data : Data
 
-    private struct Data : Codable, Hashable, Equatable {
+    private struct Data : Codable, Equatable {
         let author: String
         let created: TimeInterval?
         let name: String
@@ -71,5 +71,3 @@ extension Reddit : Equatable {
         return lhs.name == rhs.name
     }
 }
-
-extension Reddit : Hashable {}

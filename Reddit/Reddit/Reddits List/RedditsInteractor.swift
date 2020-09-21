@@ -15,8 +15,9 @@ import UIKit
 class RedditsInteractor {
 
     private let redditAPI: RedditAPI
+    private let redditDatabase: RedditDatabase
     private var reddits: [Reddit] = []
-    private var readReddits: Set<Reddit> = []
+    private var readReddits: [Reddit] = []
     private let imageCache: ImageCache?
     var stubbing: StubbingBehavior
 
@@ -27,14 +28,25 @@ class RedditsInteractor {
     ///   - redditAPI: Used to load reddits
     ///   - stubbing: the behavior used to call the endpoints
     internal init(redditAPI: RedditAPI = Current.redditAPI,
+                  redditDatabase : RedditDatabase = Current.redditDatabase,
                   imageCache: ImageCache? = Current.imageCache,
                   stubbing: StubbingBehavior = .now) {
         self.redditAPI = redditAPI
         self.stubbing = stubbing
         self.imageCache = imageCache
+        self.redditDatabase = redditDatabase
     }
 
     //MARK: - public
+
+    func loadReadReddits(onComplete: Handler<Result<[Reddit], Error>>? = nil) {
+        do {
+            self.readReddits = try redditDatabase.loadReadReddits()
+            onComplete?(.success(readReddits))
+        } catch let error {
+            onComplete?(.failure(error))
+        }
+    }
 
     func loadReddits(limit:Int = 50, after lastReddit:Reddit? = nil, onComplete: @escaping Handler<Result<[Reddit], Error>>) {
         redditAPI.topReddits(limit: limit, after: lastReddit?.name)
@@ -71,8 +83,14 @@ class RedditsInteractor {
         reddits.remove(at: index.row)
     }
 
-    func markRead(_ reddit: Reddit) {
-        self.readReddits.insert(reddit)
+    func markRead(_ reddit: Reddit, onComplete: Handler<Result<Void, Error>> ) {
+        self.readReddits.append(reddit)
+        do {
+            try self.redditDatabase.saveReadReddits(reddits: Array(self.readReddits))
+            onComplete(.success(()))
+        } catch let error{
+            onComplete(.failure(error))
+        }
     }
 
     func isRead(_ reddit: Reddit) -> Bool {

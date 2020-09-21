@@ -67,7 +67,7 @@ class RedditsViewController: UIViewController, Storyboarded {
             self.interactor.isRead(reddit)
         }
 
-        self.redditsViewModel = TableViewModel(tableView: redditsTable,
+        redditsViewModel = TableViewModel(tableView: redditsTable,
                                                isChecked: isChecked,
                                                onDelete: onDelete,
                                                onPrefetch: onPrefetch,
@@ -76,19 +76,21 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     private func display(reddits: [Reddit]) {
-        self.redditsViewModel.set(elements:  reddits)
+        redditsViewModel.set(elements:  reddits)
     }
 
     private func display(newReddits: [Reddit]) {
-        self.redditsViewModel.append(newElements: newReddits)
+        redditsViewModel.append(newElements: newReddits)
     }
 
     private func display(error: Error) {
-        self.presentError(message: error.localizedDescription)
+        presentError(message: error.localizedDescription)
     }
 
     private func loadReddits() {
+
         let activityIndicator = self.view.addActivityIndicator()
+        interactor.loadReadReddits()
         interactor.loadReddits { [weak self] result in
             activityIndicator.removeFromSuperview()
 
@@ -103,7 +105,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     private func loadMoreReddits() {
-        self.interactor.loadMoreReddits { [weak self] result in
+        interactor.loadMoreReddits { [weak self] result in
             guard let self = self else {return}
             switch result {
             case .failure(let error) :
@@ -114,11 +116,22 @@ class RedditsViewController: UIViewController, Storyboarded {
         }
     }
 
+    private func markRead(_ reddit: Reddit) {
+        interactor.markRead(reddit) { result in
+            switch result {
+            case .failure(let error):
+                display(error: error)
+            default: break
+            }
+        }
+    }
+
     private func openReddit(at indexPath: IndexPath) {
         guard let reddit = self.interactor.reddit(at: indexPath) else {fatalError()}
-        interactor.markRead(reddit)
+
+        markRead(reddit)
         coordinator.openDetails(of: reddit)
-        self.redditsTable.reloadRows(at: [indexPath], with: .none)
+        redditsTable.reloadRows(at: [indexPath], with: .none)
     }
 
     private func removeReddits(at indexPaths: [IndexPath]) {
