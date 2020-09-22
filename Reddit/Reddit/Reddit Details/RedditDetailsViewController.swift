@@ -32,6 +32,7 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         if reddit == nil {
             self.splitViewController?.toggleMaster()
         }
@@ -61,5 +62,7 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
 
             reddit.loadThumbnail(on: picture)
         }
+
+        view.isHidden = reddit == nil
     }
 }

@@ -20,11 +20,11 @@ extension Reddit : Displayable {
     }
 
     var timeFromNow: String {
-        return created?.timeFromNow() ?? "some time ago"
+        return created?.timeFromNow() ?? "some time ago."
     }
 
     public var details: String {
-        "Posted by: \(author), \(timeFromNow) from now."
+        "Posted by: \(author), \(timeFromNow)"
     }
 }
 

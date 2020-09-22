@@ -167,6 +167,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     @objc private func removeAllReddits() {
         interactor.removeAllReddits()
+        coordinator.closeDetails()
         display(reddits: [])
         navigationItem.rightBarButtonItem = nil
     }
