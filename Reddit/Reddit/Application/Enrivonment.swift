@@ -12,7 +12,7 @@ import Base
 
 var Current = Environment()
 
-/// Environment to singleton to control the world. See talk by Stephen Cells https://vimeo.com/291588126
+/// Environment singleton to control the world. See talk by Stephen Cells https://vimeo.com/291588126
 struct Environment {
 
     var coordinator : MainCoordinator!
