@@ -54,6 +54,5 @@ class DateTests: XCTestCase {
 
         let twoYearsAgo = Date().addingTimeInterval(-366 * oneDay * 2)
         XCTAssertEqual(twoYearsAgo.timeFromNow(), "2 years from now.")
-
     }
 }
