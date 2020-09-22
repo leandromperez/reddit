@@ -15,6 +15,7 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
     @IBOutlet var subtitleLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var picture: UIImageView!
+    @IBOutlet var addToLibraryButton: UIButton!
 
     var reddit: Displayable? {
         didSet {

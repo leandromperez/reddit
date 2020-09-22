@@ -13,7 +13,7 @@ import Base
 class RedditsViewController: UIViewController, Storyboarded {
 
     private weak var coordinator : MainCoordinator!
-    private var interactor : RedditsInteractor!
+    private var interactor : RedditsViewModel!
     private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
     private lazy var refreshControl = UIRefreshControl()
 
@@ -21,7 +21,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     //MARK: - lifecycle
 
-    static func fromStoryboard(coordinator : MainCoordinator, interactor: RedditsInteractor) -> RedditsViewController {
+    static func fromStoryboard(coordinator : MainCoordinator, interactor: RedditsViewModel) -> RedditsViewController {
         let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor

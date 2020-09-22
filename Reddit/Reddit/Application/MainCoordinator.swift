@@ -16,7 +16,7 @@ class MainCoordinator : Coordinator {
     var splitViewController: UISplitViewController!
 
     private lazy var redditsViewController: RedditsViewController = {
-        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .never)
+        let interactor = RedditsViewModel(redditAPI: Current.redditAPI, stubbing: .never)
         let instance = RedditsViewController.fromStoryboard(coordinator: self, interactor: interactor)
         return instance
     }()
@@ -33,7 +33,7 @@ class MainCoordinator : Coordinator {
 
         let masterNavigator = splitViewController.viewControllers.first as! UINavigationController
         masterNavigator.viewControllers = [redditsViewController]
-        splitViewController.preferredDisplayMode = .allVisible
+//        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.delegate = self
 
         //Push details vc, so it's opened with no reddit, and it causes master to toggle (on ipad, portrait mod)
