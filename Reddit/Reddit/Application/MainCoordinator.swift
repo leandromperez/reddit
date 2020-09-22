@@ -36,7 +36,7 @@ class MainCoordinator : Coordinator {
         masterNavigator.viewControllers = [redditsViewController]
         splitViewController.delegate = self
 
-        //Push details vc, so it's opened with no reddit, and it causes master to toggle (on ipad, portrait mod)
+//        //Push details vc, so it's opened with no reddit, and it causes master to toggle (on ipad, portrait mod)
         pushDetailsViewController()
 
         splitViewController.toggleMaster()
@@ -45,6 +45,10 @@ class MainCoordinator : Coordinator {
     func openDetails(of reddit:Reddit) {
         let details = detailsViewController ?? pushDetailsViewController()
         details.reddit = reddit
+    }
+
+    func closeDetails() {
+        detailsViewController?.reddit = nil
     }
 
     //MARK: - private
