@@ -13,7 +13,7 @@ import Base
 class RedditsViewController: UIViewController, Storyboarded {
 
     private weak var coordinator : MainCoordinator!
-    private var interactor : RedditsInteractor!
+    private var interactor : RedditsViewModel!
     private var redditsViewModel: TableViewModel<Reddit, RedditTableViewCell>!
     private lazy var refreshControl = UIRefreshControl()
 
@@ -21,7 +21,7 @@ class RedditsViewController: UIViewController, Storyboarded {
 
     //MARK: - lifecycle
 
-    static func fromStoryboard(coordinator : MainCoordinator, interactor: RedditsInteractor) -> RedditsViewController {
+    static func fromStoryboard(coordinator : MainCoordinator, interactor: RedditsViewModel) -> RedditsViewController {
         let instance = RedditsViewController.fromStoryboard()
         instance.coordinator = coordinator
         instance.interactor = interactor
@@ -42,6 +42,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     //MARK: - private
+
     private func addDismissAllButton() {
         navigationItem.rightBarButtonItem = .init(title: "Dismiss All", style: .plain, target: self, action: #selector(removeAllReddits))
     }
@@ -53,6 +54,7 @@ class RedditsViewController: UIViewController, Storyboarded {
     }
 
     private func configureTable() {
+        //TODO: too many handlers, it'd be better to use delegation in this case.
         let onDelete : Handler<[IndexPath]> = { [unowned self] indexPaths in
             self.removeReddits(at: indexPaths)
         }

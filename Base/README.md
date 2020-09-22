@@ -1,3 +1,3 @@
 # Base
 
-A description of this package.
+This package contains extensions and base utilities that typically repeat in every project.

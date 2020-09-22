@@ -28,14 +28,14 @@
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="pMT-K5-jGb"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hGu-Xg-sZK" userLabel="Checked">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hGu-Xg-sZK" userLabel="Checked">
                         <rect key="frame" x="272" y="44" width="24" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="T4K-8O-z2W"/>
                             <constraint firstAttribute="width" constant="24" id="feZ-r0-0RH"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Obd-Rk-FpS" userLabel="Unchecked">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Obd-Rk-FpS" userLabel="Unchecked">
                         <rect key="frame" x="272" y="44" width="24" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="C7O-XU-jLe"/>
@@ -90,7 +90,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
     </resources>
 </document>

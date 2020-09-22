@@ -1,5 +1,5 @@
 //
-//  RedditsInteractor.swift
+//  RedditsViewModel.swift
 //  Reddit
 //
 //  Created by Leandro Perez on 9/13/20.
@@ -12,7 +12,8 @@ import Base
 import Endpoints
 import UIKit
 
-class RedditsInteractor {
+/// The business logic of the Reddits scene
+class RedditsViewModel {
 
     private let redditAPI: RedditAPI
     private let redditDatabase: RedditDatabase

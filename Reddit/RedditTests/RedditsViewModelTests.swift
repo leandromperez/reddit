@@ -14,12 +14,12 @@ import Base
 
 struct SomeError: Error {}
 
-class RedditsInteractorTests: XCTestCase {
+class RedditsViewModelTests: XCTestCase {
 
     func testLoadRedditsChangesReddits() throws {
         let redditsAreLoaded = expectation(description: "changed")
 
-        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
+        let interactor = RedditsViewModel(redditAPI: Current.redditAPI, stubbing: .now)
 
         XCTAssertNil(interactor.reddit(at: IndexPath(row: 0, section: 0)))
         interactor.loadReddits(limit:4) { result in
@@ -33,10 +33,11 @@ class RedditsInteractorTests: XCTestCase {
 
 
     func testLoadMoreRedditsAddsNewReddits() throws {
+        //TODO: This one fails because I need to fix the stubbing behavior so it uses the query parameter.
         let tenRedditsLoaded = expectation(description: "changed")
 
-        let interactor = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
-        let interactorAll = RedditsInteractor(redditAPI: Current.redditAPI, stubbing: .now)
+        let interactor = RedditsViewModel(redditAPI: Current.redditAPI, stubbing: .now)
+        let interactorAll = RedditsViewModel(redditAPI: Current.redditAPI, stubbing: .now)
 
         var allReddits = [Reddit]()
         interactorAll.loadReddits { (result) in
