@@ -16,19 +16,20 @@ extension Date {
     /// - Parameter calendar:  is the calendar used to perform the calculations. `current` by default
     /// - Returns: a string, in english, representing the time elapsed since the receiver to the current date.
     func timeFromNow(_ calendar: Calendar = .current) -> String {
+        let suffix = " from now."
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Current.date())
         if let years = components.year, years > 0 {
-            return String(elements: years, unit: "year")
+            return String(elements: years, unit: "year") + suffix
         } else if let months = components.month, months > 0 {
-            return String(elements: months, unit: "month")
+            return String(elements: months, unit: "month") + suffix
         } else if let days = components.day, days > 0, let hours = components.hour {
-            return String(days:days, hours: hours)
+            return String(days:days, hours: hours) + suffix
         } else if let hours = components.hour, hours > 0, let minutes = components.minute {
-            return String(hours: hours, minutes: minutes)
+            return String(hours: hours, minutes: minutes) + suffix
         } else if let minutes = components.minute, minutes > 0, let seconds = components.second {
-            return String(minutes: minutes, seconds: seconds)
+            return String(minutes: minutes, seconds: seconds) + suffix
         } else if let seconds = components.second, seconds > 0 {
-            return String(seconds: seconds)
+            return String(seconds: seconds) + suffix
         } else {
             return "right now"
         }

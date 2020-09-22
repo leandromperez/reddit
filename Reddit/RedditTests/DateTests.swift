@@ -20,39 +20,39 @@ class DateTests: XCTestCase {
         XCTAssertEqual(Date().timeFromNow(), "right now")
 
         let yesterday = Date().addingTimeInterval(-oneDay)
-        XCTAssertEqual(yesterday.timeFromNow(), "1 day")
+        XCTAssertEqual(yesterday.timeFromNow(), "1 day from now.")
 
         let twoHoursBeforeYesterday = Date().addingTimeInterval(-oneDay - (oneHour * 2))
-        XCTAssertEqual(twoHoursBeforeYesterday.timeFromNow(), "1 day, 2 hours")
+        XCTAssertEqual(twoHoursBeforeYesterday.timeFromNow(), "1 day, 2 hours from now.")
 
         let almost2Days = Date().addingTimeInterval(-oneDay - (oneHour * 23))
-        XCTAssertEqual(almost2Days.timeFromNow(), "1 day, 23 hours")
+        XCTAssertEqual(almost2Days.timeFromNow(), "1 day, 23 hours from now.")
 
         let twoDays = Date().addingTimeInterval(-oneDay - (oneHour * 24))
-        XCTAssertEqual(twoDays.timeFromNow(), "2 days")
+        XCTAssertEqual(twoDays.timeFromNow(), "2 days from now.")
 
         let oneHourAgo = Date().addingTimeInterval(-oneHour )
-        XCTAssertEqual(oneHourAgo.timeFromNow(), "1 hour")
+        XCTAssertEqual(oneHourAgo.timeFromNow(), "1 hour from now.")
 
         let oneHour20MinutesAgo = Date().addingTimeInterval(-oneHour - (oneMinute * 20))
-        XCTAssertEqual(oneHour20MinutesAgo.timeFromNow(), "1 hour, 20 minutes")
+        XCTAssertEqual(oneHour20MinutesAgo.timeFromNow(), "1 hour, 20 minutes from now.")
 
         let twoHoursAgo = Date().addingTimeInterval(-oneHour * 2 )
-        XCTAssertEqual(twoHoursAgo.timeFromNow(), "2 hours")
+        XCTAssertEqual(twoHoursAgo.timeFromNow(), "2 hours from now.")
 
         let twoHoursAgo20MinutesAgo = Date().addingTimeInterval(-oneHour * 2 - (oneMinute * 20))
-        XCTAssertEqual(twoHoursAgo20MinutesAgo.timeFromNow(), "2 hours, 20 minutes")
+        XCTAssertEqual(twoHoursAgo20MinutesAgo.timeFromNow(), "2 hours, 20 minutes from now.")
 
         let twentySecondsAgo = Date().addingTimeInterval(-20)
-        XCTAssertEqual(twentySecondsAgo.timeFromNow(), "20 seconds")
+        XCTAssertEqual(twentySecondsAgo.timeFromNow(), "20 seconds from now.")
 
         let aSecondAgo = Date().addingTimeInterval(-1)
-        XCTAssertEqual(aSecondAgo.timeFromNow(), "1 second")
+        XCTAssertEqual(aSecondAgo.timeFromNow(), "1 second from now.")
 
         let aYearAgo = Date().addingTimeInterval(-366 * oneDay)
-        XCTAssertEqual(aYearAgo.timeFromNow(), "1 year")
+        XCTAssertEqual(aYearAgo.timeFromNow(), "1 year from now.")
 
         let twoYearsAgo = Date().addingTimeInterval(-366 * oneDay * 2)
-        XCTAssertEqual(twoYearsAgo.timeFromNow(), "2 years")
+        XCTAssertEqual(twoYearsAgo.timeFromNow(), "2 years from now.")
     }
 }

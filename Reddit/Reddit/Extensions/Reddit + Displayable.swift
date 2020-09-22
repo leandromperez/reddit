@@ -24,7 +24,7 @@ extension Reddit : Displayable {
     }
 
     public var details: String {
-        "Posted by: \(author), \(timeFromNow) from now."
+        "Posted by: \(author), \(timeFromNow)."
     }
 }
 
