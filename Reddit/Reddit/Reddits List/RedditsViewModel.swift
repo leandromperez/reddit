@@ -12,6 +12,7 @@ import Base
 import Endpoints
 import UIKit
 
+/// The business logic of the Reddits scene
 class RedditsViewModel {
 
     private let redditAPI: RedditAPI

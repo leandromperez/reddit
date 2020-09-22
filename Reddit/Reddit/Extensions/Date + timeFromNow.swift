@@ -8,6 +8,33 @@
 
 import Foundation
 
+extension Date {
+
+    /// Create a string representing the time elapsed since the receiver to the current date.
+    /// - See the unit tests for more info.
+    /// - Example: `Date().addingTimeInterval(-oneHour - (oneMinute * 20))` will return `"1 hour, 20 minutes"`
+    /// - Parameter calendar:  is the calendar used to perform the calculations. `current` by default
+    /// - Returns: a string, in english, representing the time elapsed since the receiver to the current date.
+    func timeFromNow(_ calendar: Calendar = .current) -> String {
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Current.date())
+        if let years = components.year, years > 0 {
+            return String(elements: years, unit: "year")
+        } else if let months = components.month, months > 0 {
+            return String(elements: months, unit: "month")
+        } else if let days = components.day, days > 0, let hours = components.hour {
+            return String(days:days, hours: hours)
+        } else if let hours = components.hour, hours > 0, let minutes = components.minute {
+            return String(hours: hours, minutes: minutes)
+        } else if let minutes = components.minute, minutes > 0, let seconds = components.second {
+            return String(minutes: minutes, seconds: seconds)
+        } else if let seconds = components.second, seconds > 0 {
+            return String(seconds: seconds)
+        } else {
+            return "right now"
+        }
+    }
+}
+
 fileprivate extension String {
 
     init (elements: Int, unit: String) {
@@ -54,30 +81,5 @@ fileprivate extension String {
 
     init (minutes: Int, seconds: Int) {
         self.init( majorUnit: "minute", majorValue: minutes, minorUnit: "second", minorValue: seconds )
-    }
-}
-
-extension Date {
-
-    /// Create a string representing the time elapsed since the receiver to the current date.
-    /// - Parameter calendar:  is the calendar used to perform the calculations. `current` by default
-    /// - Returns: a string, in english, representing the time elapsed since the receiver to the current date.
-    func timeFromNow(_ calendar: Calendar = .current) -> String {
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Current.date())
-        if let years = components.year, years > 0 {
-            return String(elements: years, unit: "year")
-        } else if let months = components.month, months > 0 {
-            return String(elements: months, unit: "month")
-        } else if let days = components.day, days > 0, let hours = components.hour {
-            return String(days:days, hours: hours)
-        } else if let hours = components.hour, hours > 0, let minutes = components.minute {
-            return String(hours: hours, minutes: minutes)
-        } else if let minutes = components.minute, minutes > 0, let seconds = components.second {
-            return String(minutes: minutes, seconds: seconds)
-        } else if let seconds = components.second, seconds > 0 {
-            return String(seconds: seconds)
-        } else {
-            return "right now"
-        }
     }
 }

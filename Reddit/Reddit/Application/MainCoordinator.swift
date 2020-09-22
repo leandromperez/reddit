@@ -11,6 +11,7 @@ import UIKit
 import Base
 import Reddit_api
 
+/// In charge of navigation.
 class MainCoordinator : Coordinator {
     var childCoordinators: [Coordinator] = []
     var splitViewController: UISplitViewController!
@@ -33,7 +34,6 @@ class MainCoordinator : Coordinator {
 
         let masterNavigator = splitViewController.viewControllers.first as! UINavigationController
         masterNavigator.viewControllers = [redditsViewController]
-//        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.delegate = self
 
         //Push details vc, so it's opened with no reddit, and it causes master to toggle (on ipad, portrait mod)
@@ -69,9 +69,9 @@ class MainCoordinator : Coordinator {
 
 }
 
-extension MainCoordinator : UISplitViewControllerDelegate {
+// MARK: - UISplitViewControllerDelegate
 
-    // MARK: - Split view
+extension MainCoordinator : UISplitViewControllerDelegate {
 
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
         if detailsViewController?.reddit == nil {

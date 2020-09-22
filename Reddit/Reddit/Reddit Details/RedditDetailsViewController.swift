@@ -37,7 +37,6 @@ class RedditDetailsViewController: UIViewController, Storyboarded {
         }
     }
 
-
     //MARK: - actions
 
     @IBAction func saveImage() {

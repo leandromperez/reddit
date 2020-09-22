@@ -20,10 +20,21 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
 
     private var displayable: Displayable?
 
+    //MARK: - lifecycle
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.displayable = nil
     }
+
+    //MARK: - public
+
+    func set( displayable: Displayable?, checked:Bool) {
+        self.displayable = displayable
+        self.updateDisplayable(checked: checked)
+    }
+
+    //MARK: - private
 
     private func updateDisplayable(checked: Bool) {
         self.titleLabel.text = displayable?.title
@@ -33,11 +44,6 @@ class RedditTableViewCell: UITableViewCell, DisplayableContainer {
         displayable?.loadThumbnail(on: thumbnail)
         self.checked.isHidden = !checked
         self.unchecked.isHidden = checked
-    }
-
-    func set( displayable: Displayable?, checked:Bool) {
-        self.displayable = displayable
-        self.updateDisplayable(checked: checked)
     }
 }
 
